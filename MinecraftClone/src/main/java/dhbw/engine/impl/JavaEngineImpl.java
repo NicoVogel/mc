@@ -1,8 +1,8 @@
 package dhbw.engine.impl;
 
-import dhbw.engine.InputListeners;
 import dhbw.engine.JavaEngine;
 import dhbw.engine.impl.display.DisplayManager;
+import dhbw.engine.impl.input.InputListeners;
 import dhbw.engine.impl.input.InputManager;
 
 public class JavaEngineImpl implements JavaEngine {
