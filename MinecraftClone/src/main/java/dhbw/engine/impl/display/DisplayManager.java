@@ -1,6 +1,7 @@
 package dhbw.engine.impl.display;
 
 import java.nio.DoubleBuffer;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.BufferUtils;
@@ -12,7 +13,6 @@ import org.lwjgl.opengl.GL11;
 import dhbw.engine.impl.EngineFactory;
 import dhbw.engine.impl.display.render.Model;
 import dhbw.engine.impl.display.render.Renderer;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -20,11 +20,17 @@ public class DisplayManager {
 
 	private long windowID;
 	private Renderer renderer;
-	@Getter
 	private List<Model> models;
 
 	public DisplayManager() {
 		this.renderer = new Renderer();
+	}
+
+	public List<Model> getModels() {
+		if (this.models == null) {
+			this.models = new ArrayList<>();
+		}
+		return this.models;
 	}
 
 	public void create() {
