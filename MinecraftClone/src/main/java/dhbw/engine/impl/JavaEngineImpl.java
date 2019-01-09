@@ -15,4 +15,9 @@ public class JavaEngineImpl implements JavaEngine {
 		this.displayManager.create();
 	}
 
+	@Override
+	public void update() {
+		this.displayManager.update();
+	}
+
 }
