@@ -3,8 +3,10 @@ package dhbw.engine.impl.input;
 import java.util.EventObject;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class MouseEvent extends EventObject {
 
 	/**
