@@ -1,5 +1,6 @@
 import dhbw.engine.EngineProvider;
 import dhbw.engine.JavaEngine;
+import dhbw.engine.impl.display.render.Model;
 import dhbw.engine.impl.input.KeyInputListener;
 import dhbw.engine.impl.input.MouseInputListener;
 
@@ -18,10 +19,20 @@ public class TestRun {
 		};
 		engine.getInputs().addKeyListener(key);
 		engine.getInputs().addMouseListener(mouse);
+
+		Model model = new Model(new float[][] { { -0.5f, 0.5f, 0 }, // TOP LEFT 0
+				{ 0.5f, 0.5f, 0 }, // TOP RIGHT 1
+				{ -0.5f, -0.5f, 0 }, // BOTTOM LEFT 3
+				{ 0.5f, -0.5f, 0 } // BOTTOM RIGHT 2
+		}, new int[] { 0, 1, 2, 2, 3, 1 });
+		engine.getModels().add(model);
+
 		engine.showWindow();
+		model.create();
 		while (!engine.isClosed()) {
 			engine.update();
 		}
+		model.remove();
 	}
 
 }
