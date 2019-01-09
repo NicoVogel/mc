@@ -1,4 +1,4 @@
-package dhbw.engine.impl;
+package dhbw.engine;
 
 import java.util.ArrayList;
 import java.util.EventObject;
