@@ -42,7 +42,9 @@ public class InputManager implements InputListeners {
 			boolean released = this.mouseDown[i] && !current;
 			this.mouseDown[i] = current;
 			if (current || pressed || released) {
-				this.mouseEventProvider.invoke(new MouseEvent(this, i, current, pressed, released));
+				double x = this.displayManager.getMouseX();
+				double y = this.displayManager.getMouseY();
+				this.mouseEventProvider.invoke(new MouseEvent(this, i, current, pressed, released, x, y));
 			}
 		}
 	}
