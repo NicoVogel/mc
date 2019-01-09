@@ -3,7 +3,6 @@ package dhbw.engine.impl.input;
 import org.lwjgl.glfw.GLFW;
 
 import dhbw.engine.EventProvider;
-import dhbw.engine.InputListeners;
 import dhbw.engine.impl.display.DisplayManager;
 
 public class InputManager implements InputListeners {
@@ -61,7 +60,7 @@ public class InputManager implements InputListeners {
 
 	@Override
 	public void addMouseListener(MouseInputListener mouseListener) {
-		this.mouseEventProvider.remove(mouseListener);
+		this.mouseEventProvider.add(mouseListener);
 	}
 
 	@Override
