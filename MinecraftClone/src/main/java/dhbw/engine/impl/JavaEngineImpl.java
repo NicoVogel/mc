@@ -11,6 +11,7 @@ public class JavaEngineImpl implements JavaEngine {
 		this.displayManager = new DisplayManager();
 	}
 
+	@Override
 	public void showWindow() {
 		this.displayManager.create();
 	}
@@ -18,6 +19,10 @@ public class JavaEngineImpl implements JavaEngine {
 	@Override
 	public void update() {
 		this.displayManager.update();
+	}
+
+	public boolean isClosed() {
+		return this.displayManager.isWindowClosed();
 	}
 
 }

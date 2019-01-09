@@ -10,4 +10,9 @@ public interface JavaEngine {
 	 * only temporarily here
 	 */
 	void update();
+
+	/**
+	 * only temporarily here
+	 */
+	boolean isClosed();
 }
