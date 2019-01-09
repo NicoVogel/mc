@@ -6,7 +6,7 @@ import dhbw.engine.EventProvider;
 import dhbw.engine.InputListeners;
 import dhbw.engine.impl.display.DisplayManager;
 
-public class InputManagerImpl implements InputListeners {
+public class InputManager implements InputListeners {
 
 	private DisplayManager displayManager;
 	private boolean keyDown[];
@@ -15,14 +15,14 @@ public class InputManagerImpl implements InputListeners {
 	private EventProvider<KeyInputListener, KeyEvent> keyEventProvider;
 	private EventProvider<MouseInputListener, MouseEvent> mouseEventProvider;
 
-	public InputManagerImpl(DisplayManager displayManager) {
+	public InputManager(DisplayManager displayManager) {
 		this.displayManager = displayManager;
 		if (this.displayManager == null) {
 			throw new IllegalArgumentException("the display manager was not set to an instance");
 		}
 		this.keyDown = new boolean[GLFW.GLFW_KEY_LAST];
 		this.mouseDown = new boolean[GLFW.GLFW_MOUSE_BUTTON_LAST];
-		this.keyEventProvider = new EventProvider<>();
+		this.keyEventProvider = new EventProvider<>(); 
 		this.mouseEventProvider = new EventProvider<>();
 	}
 
