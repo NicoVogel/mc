@@ -3,8 +3,10 @@ package dhbw.engine.impl.frame;
 import java.util.EventObject;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class FpsEvent extends EventObject {
 
 	private static final long serialVersionUID = 358517685565045822L;
