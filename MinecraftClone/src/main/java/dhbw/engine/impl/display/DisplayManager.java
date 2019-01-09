@@ -17,7 +17,7 @@ public class DisplayManager {
 			return;
 		}
 		DisplayInitialSettingsBE settings = EngineFactory.getSettings().getDisplaySettings();
-		this.windowID = GLFW.glfwCreateWindow(settings.getHeight(), settings.getWidth(), settings.getTitle(),
+		this.windowID = GLFW.glfwCreateWindow(settings.getWidth(), settings.getHeight(), settings.getTitle(),
 				settings.getMonitorForFullscreen(), settings.getShareResourcesWindow());
 
 		if (this.windowID == 0) {
@@ -43,9 +43,30 @@ public class DisplayManager {
 	public void update() {
 		clearScreenFromPreviousFrame();
 
+		log.debug("test");
 		// Do stuff
 
 		renderEverything();
+	}
+
+	/**
+	 * returns true if that key is clicked
+	 * 
+	 * @param keyCode
+	 * @return
+	 */
+	public boolean isKeyDown(int keyCode) {
+		return GLFW.glfwGetKey(this.windowID, keyCode) == 1;
+	}
+
+	/**
+	 * returns true if that mouse button is clicked
+	 * 
+	 * @param mouseButton
+	 * @return
+	 */
+	public boolean isMouseDown(int mouseButton) {
+		return GLFW.glfwGetMouseButton(this.windowID, mouseButton) == 1;
 	}
 
 	private void clearScreenFromPreviousFrame() {
@@ -60,6 +81,6 @@ public class DisplayManager {
 	}
 
 	private int getMidScreenCoordinate(int full, int part) {
-		return full - part / 2;
+		return (full - part) / 2;
 	}
 }
