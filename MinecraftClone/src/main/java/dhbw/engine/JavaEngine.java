@@ -15,4 +15,6 @@ public interface JavaEngine {
 	 * only temporarily here
 	 */
 	boolean isClosed();
+
+	InputListeners getInputs();
 }
