@@ -1,18 +1,31 @@
 package dhbw.engine.impl.display;
 
 import java.nio.DoubleBuffer;
+import java.util.List;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 
 import dhbw.engine.impl.EngineFactory;
+import dhbw.engine.impl.display.render.Model;
+import dhbw.engine.impl.display.render.Renderer;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class DisplayManager {
 
 	private long windowID;
+	private Renderer renderer;
+	@Getter
+	private List<Model> models;
+
+	public DisplayManager() {
+		this.renderer = new Renderer();
+	}
 
 	public void create() {
 		if (!GLFW.glfwInit()) {
@@ -27,6 +40,9 @@ public class DisplayManager {
 			log.error("the display could not be created");
 			System.exit(-1);
 		}
+
+		GLFW.glfwMakeContextCurrent(this.windowID);
+		GL.createCapabilities();
 
 		GLFWVidMode videoMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
 		GLFW.glfwSetWindowPos(this.windowID, getMidScreenCoordinate(videoMode.width(), settings.getWidth()),
@@ -46,8 +62,9 @@ public class DisplayManager {
 	public void update() {
 		clearScreenFromPreviousFrame();
 
-		log.debug("test");
-		// Do stuff
+		GL11.glClearColor(1, 0, 0, 1);
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+		render();
 
 		renderEverything();
 	}
@@ -82,6 +99,10 @@ public class DisplayManager {
 	 */
 	public boolean isMouseDown(int mouseButton) {
 		return GLFW.glfwGetMouseButton(this.windowID, mouseButton) == 1;
+	}
+
+	private void render() {
+		this.models.stream().forEach(x -> this.renderer.renderModel(x));
 	}
 
 	private void clearScreenFromPreviousFrame() {
