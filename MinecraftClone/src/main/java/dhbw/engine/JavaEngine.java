@@ -1,5 +1,7 @@
 package dhbw.engine;
 
+import dhbw.engine.impl.input.InputListeners;
+
 public interface JavaEngine {
 	/**
 	 * Open the window
@@ -16,5 +18,10 @@ public interface JavaEngine {
 	 */
 	boolean isClosed();
 
+	/**
+	 * used to add key/mouse listeners
+	 *
+	 * @return
+	 */
 	InputListeners getInputs();
 }
