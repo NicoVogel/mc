@@ -4,6 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import dhbw.engine.EventProvider;
+import dhbw.engine.impl.display.DisplayManager;
 
 public class FrameCounter {
 
@@ -16,21 +17,27 @@ public class FrameCounter {
 	private EventProvider<FpsListener, FpsEvent> fpsListener;
 	private FrameCounter selfeReference;
 
-	public FrameCounter() {
+	public FrameCounter(DisplayManager displayManager) {
 		this.selfeReference = this;
 		this.fpsListener = new EventProvider<>();
+		this.timer = new Timer();
+		initTimer(displayManager);
+	}
 
-		// invoke every second
+	private void initTimer(DisplayManager displayManager) {
 		this.timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
 				int fps = fpsCounter;
 				fpsCounter = 0;
-				totalFpsCounter = +fps;
+				totalFpsCounter += fps;
 				cycles++;
 				fpsListener.invoke(new FpsEvent(selfeReference, fps, getAverageFPS()));
+				if (displayManager.isWindowClosed()) {
+					timer.cancel();
+				}
 			}
-		}, 0, 1000);
+		}, 0, 1000);// invoke every second
 	}
 
 	public void update() {
