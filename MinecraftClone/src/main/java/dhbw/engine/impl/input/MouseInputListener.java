@@ -1,7 +1,8 @@
 package dhbw.engine.impl.input;
 
-@FunctionalInterface
-public interface MouseInputListener {
+import dhbw.engine.EventListener;
 
-	void mouseInput(MouseEvent e);
+@FunctionalInterface
+public interface MouseInputListener extends EventListener<MouseEvent> {
+
 }

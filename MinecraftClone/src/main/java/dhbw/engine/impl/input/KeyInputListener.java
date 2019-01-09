@@ -1,8 +1,8 @@
 package dhbw.engine.impl.input;
 
-@FunctionalInterface
-public interface KeyInputListener {
+import dhbw.engine.EventListener;
 
-	void keyInput(KeyEvent e);
+@FunctionalInterface
+public interface KeyInputListener extends EventListener<KeyEvent> {
 
 }
