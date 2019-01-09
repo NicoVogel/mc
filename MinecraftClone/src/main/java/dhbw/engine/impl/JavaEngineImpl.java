@@ -1,7 +1,10 @@
 package dhbw.engine.impl;
 
+import java.util.List;
+
 import dhbw.engine.JavaEngine;
 import dhbw.engine.impl.display.DisplayManager;
+import dhbw.engine.impl.display.render.Model;
 import dhbw.engine.impl.frame.FrameCounter;
 import dhbw.engine.impl.input.InputListeners;
 import dhbw.engine.impl.input.InputManager;
@@ -39,6 +42,11 @@ public class JavaEngineImpl implements JavaEngine {
 	@Override
 	public InputListeners getInputs() {
 		return this.inputManager;
+	}
+
+	@Override
+	public List<Model> getModels() {
+		return this.displayManager.getModels();
 	}
 
 }
