@@ -3,6 +3,7 @@ package dhbw.engine.impl.input;
 import org.lwjgl.glfw.GLFW;
 
 import dhbw.engine.EventProvider;
+import dhbw.engine.InputListeners;
 import dhbw.engine.impl.display.DisplayManager;
 
 public class InputManagerImpl implements InputListeners {

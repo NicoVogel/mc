@@ -1,4 +1,7 @@
-package dhbw.engine.impl.input;
+package dhbw.engine;
+
+import dhbw.engine.impl.input.KeyInputListener;
+import dhbw.engine.impl.input.MouseInputListener;
 
 /**
  * subscribe to key and mouse actions done in the window
