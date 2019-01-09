@@ -8,32 +8,32 @@ import java.util.List;
  * @author Nico
  *
  */
-public class GameObject implements Component {
+public class GameObject implements Composit {
 
 	@Override
 	public void action() {
 	}
 
 	@Override
-	public void add(Component comp) {
+	public void add(Composit comp) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void remove(Component comp) {
+	public void remove(Composit comp) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public List<Component> getChildren() {
+	public List<Composit> getChildren() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <T extends Component> List<T> getChildren(Class<T> type) {
+	public <T extends Composit> List<T> getChildren(Class<T> type) {
 		// TODO Auto-generated method stub
 		return null;
 	}
