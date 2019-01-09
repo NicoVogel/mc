@@ -1,5 +1,8 @@
 package dhbw.engine.impl.display;
 
+import java.nio.DoubleBuffer;
+
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 
@@ -57,6 +60,18 @@ public class DisplayManager {
 	 */
 	public boolean isKeyDown(int keyCode) {
 		return GLFW.glfwGetKey(this.windowID, keyCode) == 1;
+	}
+
+	public double getMouseX() {
+		DoubleBuffer buffer = BufferUtils.createDoubleBuffer(1);
+		GLFW.glfwGetCursorPos(this.windowID, buffer, null);
+		return buffer.get(0);
+	}
+
+	public double getMouseY() {
+		DoubleBuffer buffer = BufferUtils.createDoubleBuffer(1);
+		GLFW.glfwGetCursorPos(this.windowID, null, buffer);
+		return buffer.get(0);
 	}
 
 	/**
