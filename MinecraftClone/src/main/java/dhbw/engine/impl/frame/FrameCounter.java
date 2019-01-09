@@ -1,37 +1,57 @@
 package dhbw.engine.impl.frame;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import dhbw.engine.EventProvider;
+
 public class FrameCounter {
 
-	private double fpsCap;
-	private double time;
-	private double processedTime;
+	private long thisFrame;
+	private long lastFrame;
+	private int fpsCounter;
+	private long totalFpsCounter;
+	private int cycles;
+	private Timer timer;
+	private EventProvider<FpsListener, FpsEvent> fpsListener;
+	private FrameCounter selfeReference;
 
-	public FrameCounter(int fpsCap) {
-		this.fpsCap = 1.0 / fpsCap;
+	public FrameCounter() {
+		this.selfeReference = this;
+		this.fpsListener = new EventProvider<>();
+
+		// invoke every second
+		this.timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				int fps = fpsCounter;
+				fpsCounter = 0;
+				totalFpsCounter = +fps;
+				cycles++;
+				fpsListener.invoke(new FpsEvent(selfeReference, fps, getAverageFPS()));
+			}
+		}, 0, 1000);
 	}
 
-	/**
-	 * check if the FPS cap is reached
-	 * 
-	 * @return true if there is another update to go and false if the FPS cap is
-	 *         reached
-	 */
-	public boolean isUpdating() {
-		double nextTime = getTimeInSeconds();
-		// passed since last check
-		double passedTime = nextTime - this.time;
-		this.processedTime += passedTime;
-		this.time = nextTime;
-
-		if (this.processedTime > this.fpsCap) {
-			this.processedTime -= this.fpsCap;
-			return true;
-		}
-		return false;
+	public void update() {
+		this.lastFrame = this.thisFrame;
+		this.thisFrame = System.currentTimeMillis();
+		this.fpsCounter++;
 	}
 
-	private double getTimeInSeconds() {
-		return System.nanoTime() / 1000000000.0;
+	public double getAverageFPS() {
+		return this.totalFpsCounter / (double) this.cycles;
 	}
 
+	public double timeSinceLastFrameInSeconds() {
+		return (this.thisFrame - lastFrame) / 1000.0;
+	}
+
+	public void add(FpsListener listener) {
+		this.fpsListener.add(listener);
+	}
+
+	public void remove(FpsListener listener) {
+		this.fpsListener.remove(listener);
+	}
 }
