@@ -33,6 +33,12 @@
 			<artifactId>logback-classic</artifactId>
 			<version>1.2.3</version>
 		</dependency>
+		<!-- Math library -->
+		<dependency>
+			<groupId>org.joml</groupId>
+			<artifactId>joml</artifactId>
+			<version>1.9.12</version>
+		</dependency>
 		<!-- 3D game libraries -->
 		<dependency>
 			<groupId>org.lwjgl</groupId>
