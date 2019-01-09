@@ -11,15 +11,6 @@ public class DisplayManager {
 
 	private long windowID;
 
-	/**
-	 * if its 0, then it is not initialized
-	 * 
-	 * @return
-	 */
-	public long getWindowID() {
-		return this.windowID;
-	}
-
 	public void create() {
 		if (!GLFW.glfwInit()) {
 			log.error("the display is already open and can not be opened twice!");
@@ -39,6 +30,33 @@ public class DisplayManager {
 				getMidScreenCoordinate(videoMode.height(), settings.getHeight()));
 
 		GLFW.glfwShowWindow(this.windowID);
+	}
+
+	public boolean isWindowClosed() {
+		if (this.windowID == 0) {
+			log.warn("The window was not opend in the first place");
+			return true;
+		}
+		return GLFW.glfwWindowShouldClose(this.windowID);
+	}
+
+	public void update() {
+		clearScreenFromPreviousFrame();
+
+		// Do stuff
+
+		renderEverything();
+	}
+
+	private void clearScreenFromPreviousFrame() {
+		GLFW.glfwPollEvents();
+	}
+
+	/**
+	 * call it after clear Screen and the changes which happend
+	 */
+	private void renderEverything() {
+		GLFW.glfwSwapBuffers(this.windowID);
 	}
 
 	private int getMidScreenCoordinate(int full, int part) {
