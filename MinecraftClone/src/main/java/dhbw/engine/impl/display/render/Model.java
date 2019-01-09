@@ -1,10 +1,8 @@
 package dhbw.engine.impl.display.render;
 
 import java.nio.FloatBuffer;
-import java.util.List;
+import java.nio.IntBuffer;
 
-import org.joml.Vector3f;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
@@ -17,46 +15,55 @@ import lombok.Getter;
 public class Model {
 	private int vertexArrayID;
 	private int vertexBufferID;
+	private int indicesBufferID;
 	private int vertexCount;
 	@Getter(AccessLevel.PRIVATE)
 	private float[] vertices;
+	private int[] indices;
 
-	public Model(List<Vector3f> vertex) {
+	public Model(float[][] vertex, int[] indices) {
 		this.vertices = getVertices(vertex);
-		this.vertexCount = vertex.size();
+		this.vertexCount = indices.length;
+		this.indices = indices;
 	}
 
 	public void create() {
-		FloatBuffer buffer = BufferUtils.createFloatBuffer(getVertexCount() * 3);
-		buffer.put(this.vertices);
-		buffer.flip();
+
+		FloatBuffer buffer = GLUtils.createPutFlipBuffer(this.vertices.length, this.vertices);
+		IntBuffer indeciesBuffer = GLUtils.createPutFlipBuffer(this.indices.length, this.indices);
 		this.vertexArrayID = GL30.glGenVertexArrays();
-		GL30.glBindVertexArray(this.vertexArrayID);
-		this.vertexBufferID = GL15.glGenBuffers();
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, this.vertexBufferID);
-		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW); // change for motion
-		GL20.glEnableVertexAttribArray(0);
-		GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
-		GL30.glBindVertexArray(0);
-		GL20.glDisableVertexAttribArray(0);
+
+		GLUtils.gl30_bindVertex(this.vertexArrayID, () -> {
+
+			this.vertexBufferID = GLUtils.gl15_GenBindDataBuffer(buffer, GL15.GL_ARRAY_BUFFER, GL15.GL_STATIC_DRAW);
+			this.indicesBufferID = GLUtils.gl15_GenBindDataBuffer(indeciesBuffer, GL15.GL_ELEMENT_ARRAY_BUFFER,
+					GL15.GL_STATIC_DRAW);
+
+			GLUtils.gl20_enableVertex(0, () -> {
+				GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
+			});
+
+		});
+
 	}
 
 	public void remove() {
 		GL30.glDeleteVertexArrays(this.vertexArrayID);
 		GL15.glDeleteBuffers(this.vertexBufferID);
+		GL15.glDeleteBuffers(this.indicesBufferID);
 	}
 
 	public int getVertexCount() {
 		return this.vertexCount;
 	}
 
-	private float[] getVertices(List<Vector3f> vertex) {
-		float[] vertices = new float[vertex.size() * 3];
+	private float[] getVertices(float[][] vertex) {
+		float[] vertices = new float[vertex.length * 3];
 		int count = 0;
-		for (Vector3f vector : vertex) {
-			vertices[count] = vector.x;
-			vertices[count + 1] = vector.y;
-			vertices[count + 2] = vector.z;
+		for (float[] vector : vertex) {
+			vertices[count] = vector[0];
+			vertices[count + 1] = vector[1];
+			vertices[count + 2] = vector[2];
 			count += 3;
 		}
 		return vertices;
