@@ -2,6 +2,12 @@ package dhbw.engine;
 
 import java.util.List;
 
+/**
+ * this is the basic object used by the engine
+ * 
+ * @author Nico
+ *
+ */
 public class GameObject implements Component {
 
 	@Override
