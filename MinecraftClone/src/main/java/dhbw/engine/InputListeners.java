@@ -11,11 +11,11 @@ import dhbw.engine.impl.input.MouseInputListener;
  */
 public interface InputListeners {
 
-	void add(KeyInputListener keyListener);
+	void addKeyListener(KeyInputListener keyListener);
 
 	void remove(KeyInputListener keyListener);
 
-	void add(MouseInputListener mouseListener);
+	void addMouseListener(MouseInputListener mouseListener);
 
 	void remove(MouseInputListener mouseListener);
 }

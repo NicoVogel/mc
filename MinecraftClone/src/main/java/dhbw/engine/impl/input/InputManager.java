@@ -22,7 +22,7 @@ public class InputManager implements InputListeners {
 		}
 		this.keyDown = new boolean[GLFW.GLFW_KEY_LAST];
 		this.mouseDown = new boolean[GLFW.GLFW_MOUSE_BUTTON_LAST];
-		this.keyEventProvider = new EventProvider<>(); 
+		this.keyEventProvider = new EventProvider<>();
 		this.mouseEventProvider = new EventProvider<>();
 	}
 
@@ -48,7 +48,7 @@ public class InputManager implements InputListeners {
 	}
 
 	@Override
-	public void add(KeyInputListener keyListener) {
+	public void addKeyListener(KeyInputListener keyListener) {
 		this.keyEventProvider.add(keyListener);
 	}
 
@@ -58,7 +58,7 @@ public class InputManager implements InputListeners {
 	}
 
 	@Override
-	public void add(MouseInputListener mouseListener) {
+	public void addMouseListener(MouseInputListener mouseListener) {
 		this.mouseEventProvider.remove(mouseListener);
 	}
 
