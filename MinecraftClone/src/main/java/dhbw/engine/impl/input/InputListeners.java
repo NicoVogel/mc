@@ -6,7 +6,7 @@ package dhbw.engine.impl.input;
  * @author Nico
  *
  */
-public interface InputManager {
+public interface InputListeners {
 
 	void add(KeyInputListener keyListener);
 

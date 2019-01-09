@@ -5,7 +5,7 @@ import org.lwjgl.glfw.GLFW;
 import dhbw.engine.EventProvider;
 import dhbw.engine.impl.display.DisplayManager;
 
-public class InputManagerImpl implements InputManager {
+public class InputManagerImpl implements InputListeners {
 
 	private DisplayManager displayManager;
 	private boolean keyDown[];
