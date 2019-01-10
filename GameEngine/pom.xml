@@ -10,6 +10,13 @@
 		<lwjgl.natives>natives-windows</lwjgl.natives>
 	</properties>
 	<dependencies>
+	
+		<dependency>
+			<groupId>mc</groupId>
+			<artifactId>io</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	
 		<!-- used to get rid of boilder plaid code -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
