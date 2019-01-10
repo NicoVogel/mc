@@ -1,9 +1,9 @@
-import dhbw.engine.EngineProvider;
-import dhbw.engine.JavaEngine;
-import dhbw.engine.impl.display.render.Model;
-import dhbw.engine.impl.display.shaders.BasicShader;
-import dhbw.engine.impl.input.KeyInputListener;
-import dhbw.engine.impl.input.MouseInputListener;
+import mc.engine.EngineProvider;
+import mc.engine.JavaEngine;
+import mc.engine.impl.display.render.Model;
+import mc.engine.impl.display.shaders.BasicShader;
+import mc.engine.impl.input.KeyInputListener;
+import mc.engine.impl.input.MouseInputListener;
 
 public class TestRun {
 
