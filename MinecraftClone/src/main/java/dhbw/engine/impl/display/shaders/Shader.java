@@ -61,14 +61,14 @@ public abstract class Shader {
 
 		if (GL20.glGetShaderi(shaderID, GL20.GL_COMPILE_STATUS) == GL11.GL_FALSE) {
 			log.error(String.format("could not compile %s shader which was loaded from %s. info log: %s", name,
-					this.vertexFile, GL20.glGetShaderInfoLog(shaderID)));
+					this.vertexFile, GL20.glGetShaderInfoLog(shaderID, 0)));
 		}
 		return shaderID;
 	}
 
 	private void checkForProgrammError(int id, int type, String name) {
 		if (GL20.glGetProgrami(id, type) == GL11.GL_FALSE) {
-			log.error(String.format("could not %s program. info log: %s", name, GL20.glGetProgramInfoLog(id)));
+			log.error(String.format("could not %s program. info log: %s", name, GL20.glGetProgramInfoLog(id, 0)));
 		}
 	}
 }
