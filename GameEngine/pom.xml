@@ -2,43 +2,24 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>mc</groupId>
 	<artifactId>engine</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<properties>
 		<lwjgl.version>3.2.1</lwjgl.version>
 		<lwjgl.natives>natives-windows</lwjgl.natives>
 	</properties>
+
+	<parent>
+		<groupId>mc</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
 	<dependencies>
-	
 		<dependency>
 			<groupId>mc</groupId>
 			<artifactId>io</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-	
-		<!-- used to get rid of boilder plaid code -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.4</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- Logging section -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.25</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>1.2.3</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.2.3</version>
 		</dependency>
 		<!-- Math library -->
 		<dependency>
