@@ -1,6 +1,7 @@
 import dhbw.engine.EngineProvider;
 import dhbw.engine.JavaEngine;
 import dhbw.engine.impl.display.render.Model;
+import dhbw.engine.impl.display.shaders.BasicShader;
 import dhbw.engine.impl.input.KeyInputListener;
 import dhbw.engine.impl.input.MouseInputListener;
 
@@ -20,6 +21,7 @@ public class TestRun {
 		engine.getInputs().addKeyListener(key);
 		engine.getInputs().addMouseListener(mouse);
 
+		BasicShader shader = new BasicShader();
 		Model model = new Model(new float[][] { { -0.5f, 0.5f, 0 }, // TOP LEFT 0
 				{ 0.5f, 0.5f, 0 }, // TOP RIGHT 1
 				{ -0.5f, -0.5f, 0 }, // BOTTOM LEFT 3
@@ -29,9 +31,13 @@ public class TestRun {
 
 		engine.showWindow();
 		model.create();
+		shader.create();
+
 		while (!engine.isClosed()) {
 			engine.update();
+			shader.bind();
 		}
+		shader.remove();
 		model.remove();
 	}
 
