@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
 import lombok.extern.slf4j.Slf4j;
-import mc.engine.io.FileReaderWriter;
+import mc.io.FileReaderWriter;
 
 @Slf4j
 public abstract class Shader {
