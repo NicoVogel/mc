@@ -1,6 +1,8 @@
 package mc.core;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * this is the basic object used by the engine
@@ -9,6 +11,7 @@ import java.util.List;
  *
  */
 public class GameObject implements Composit {
+	private List<Composit> composits;
 
 	@Override
 	public void action() {
@@ -16,26 +19,26 @@ public class GameObject implements Composit {
 
 	@Override
 	public void add(Composit comp) {
-		// TODO Auto-generated method stub
-
+		getChildren().add(comp);
 	}
 
 	@Override
 	public void remove(Composit comp) {
-		// TODO Auto-generated method stub
-
+		getChildren().remove(comp);
 	}
 
 	@Override
 	public List<Composit> getChildren() {
-		// TODO Auto-generated method stub
-		return null;
+		if (this.composits == null) {
+			this.composits = new ArrayList<>();
+		}
+		return this.composits;
 	}
 
 	@Override
-	public <T extends Composit> List<T> getChildren(Class<T> type) {
-		// TODO Auto-generated method stub
-		return null;
+	public <T extends Composit> List<T> getChildren(Class<T> clazz) {
+		return getChildren().stream().filter(x -> clazz.isInstance(x)).map(x -> clazz.cast(x))
+				.collect(Collectors.toList());
 	}
 
 }
