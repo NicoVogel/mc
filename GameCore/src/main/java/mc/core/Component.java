@@ -10,9 +10,14 @@ public abstract class Component implements Closeable {
 
 	@Setter
 	private boolean active;
-	private GameObject parent;
+	private ComponentCollection parent;
 
-	public Component(GameObject parent) {
+	public Component(ComponentCollection parent) {
+		if (parent == null) {
+			this.active = false;
+			// TODO add logger
+			return;
+		}
 		this.parent = parent;
 		this.parent.addComponent(this);
 		this.active = true;
