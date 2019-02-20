@@ -12,4 +12,12 @@ public class ComponentCollection {
 		}
 		return this.components;
 	}
+
+	/* package */ void addComponent(Component component) {
+		getComps().add(component);
+	}
+
+	/* package */ void removeComponent(Component component) {
+		getComps().remove(component);
+	}
 }

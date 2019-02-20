@@ -69,13 +69,15 @@ public class GameObject extends ComponentCollection {
 				.collect(Collectors.toList());
 	}
 
+	@Override
 	/* package */ void addComponent(Component component) {
-		getComps().add(component);
+		super.addComponent(component);
 		getCompTypes().add(component.getClass());
 	}
 
+	@Override
 	/* package */ void removeComponent(Component component) {
-		getComps().remove(component);
+		super.removeComponent(component);
 		if (this.getComps().stream().anyMatch(x -> component.getClass().isInstance(x)) == false) {
 			getCompTypes().remove(component.getClass());
 		}
