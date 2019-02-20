@@ -15,20 +15,12 @@ import lombok.Setter;
  * @author Nico
  *
  */
-public class GameObject {
+public class GameObject extends ComponentCollection {
 
 	@Getter
 	@Setter
 	private boolean active = true;
-	private List<Component> components;
 	private HashSet<Class<?>> compTypes;
-
-	private List<Component> getComps() {
-		if (this.components == null) {
-			this.components = new ArrayList<>();
-		}
-		return this.components;
-	}
 
 	private HashSet<Class<?>> getCompTypes() {
 		if (this.compTypes == null) {
