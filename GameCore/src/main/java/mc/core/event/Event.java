@@ -2,7 +2,7 @@ package mc.core.event;
 
 import java.util.HashSet;
 
-public class Event<T> {
+public class Event<T> implements EventProvider<T> {
 
 	private HashSet<EventListener<T>> listeners;
 
