@@ -24,6 +24,8 @@ public abstract class Component implements Closeable {
 
 	@Override
 	public void close() {
+		if (this.isClosed())
+			return;
 		this.parent.removeComponent(this);
 		this.closed = true;
 		this.active = false;
