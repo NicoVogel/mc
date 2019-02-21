@@ -22,6 +22,9 @@ public abstract class Component implements Closeable {
 		this.active = true;
 	}
 
+	/**
+	 * used to remove the component from its parent and disables itself
+	 */
 	@Override
 	public void close() {
 		if (this.isClosed())
