@@ -7,12 +7,12 @@ public interface EventProvider<T> {
 	 * 
 	 * @param listener
 	 */
-	public void add(EventListener<T> listener);
+	void add(EventListener<T> listener);
 
 	/**
 	 * remove an listener
 	 * 
 	 * @param listener
 	 */
-	public void remove(EventListener<T> listener);
+	void remove(EventListener<T> listener);
 }
