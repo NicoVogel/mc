@@ -13,7 +13,7 @@ public class WorldPosition extends Component {
 	private int y;
 	private int z;
 
-	public WorldPosition(ComponentCollection parent) {
+	public WorldPosition(ComponentCollection parent, int x, int y, int z) {
 		super(parent);
 	}
 
