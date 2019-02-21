@@ -1,7 +1,7 @@
 package mc.core.event;
 
 @FunctionalInterface
-public interface EventInvoke<T> {
+public interface EventListener<T> {
 
 	void invoke(T object);
 
