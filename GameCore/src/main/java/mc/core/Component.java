@@ -3,13 +3,12 @@ package mc.core;
 import java.io.Closeable;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public abstract class Component implements Closeable {
 
-	@Setter
 	private boolean active;
+	private boolean closed;
 	private ComponentCollection parent;
 
 	public Component(ComponentCollection parent) {
@@ -26,6 +25,14 @@ public abstract class Component implements Closeable {
 	@Override
 	public void close() {
 		this.parent.removeComponent(this);
+		this.closed = true;
+		this.active = false;
+	}
+
+	public void setActive(boolean active) {
+		if (this.closed == false) {
+			this.active = active;
+		}
 	}
 
 }
