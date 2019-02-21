@@ -13,14 +13,29 @@ public class EventProvider<T> {
 		return this.listeners;
 	}
 
+	/**
+	 * add an listener
+	 * 
+	 * @param listener
+	 */
 	public void add(EventInvoke<T> listener) {
 		getListeners().add(listener);
 	}
 
+	/**
+	 * remove an listener
+	 * 
+	 * @param listener
+	 */
 	public void remove(EventInvoke<T> listener) {
 		getListeners().remove(listener);
 	}
 
+	/**
+	 * invoke the event
+	 * 
+	 * @param object
+	 */
 	public void invoke(T object) {
 		for (EventInvoke<T> eventInvoke : listeners) {
 			eventInvoke.invoke(object);
