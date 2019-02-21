@@ -1,5 +1,7 @@
 package mc.core.component;
 
+import org.joml.Vector3d;
+
 import lombok.Getter;
 import lombok.Setter;
 import mc.core.Component;
@@ -9,12 +11,15 @@ import mc.core.ComponentCollection;
 @Setter
 public class WorldPosition extends Component {
 
-	private int x;
-	private int y;
-	private int z;
+	private Vector3d position;
 
-	public WorldPosition(ComponentCollection parent, int x, int y, int z) {
+	public WorldPosition(ComponentCollection parent, double x, double y, double z) {
+		this(parent, new Vector3d(x,y,z));
+	}
+	
+	public WorldPosition(ComponentCollection parent, Vector3d position) {
 		super(parent);
+		this.position = position;
 	}
 
 }

@@ -1,6 +1,9 @@
 package mc.core.component;
 
+import org.joml.Vector3d;
+
 import lombok.Getter;
+import lombok.Setter;
 import mc.core.Component;
 import mc.core.ComponentBinding;
 import mc.core.ComponentCollection;
@@ -8,22 +11,24 @@ import mc.core.ComponentCollection;
 @Getter
 public class Block extends Component {
 
+	private int id;
+	@Setter
+	private String name;
+	@Setter
+	private String description;
 	private Texture texture;
 	private WorldPosition position;
 	private ComponentBinding binding;
 
-	public Block(ComponentCollection parent, int x, int y, int z, String texture) {
+	public Block(ComponentCollection parent, Vector3d position, String texturePath) {
 		super(parent);
 		if (parent == null) {
 			// TODO log
 			return;
 		}
-		this.position = new WorldPosition(parent, x, y, z);
-		this.texture = new Texture(parent, texture);
+		this.position = new WorldPosition(parent, position);
+		this.texture = new Texture(parent, texturePath);
 		this.binding = new ComponentBinding(parent, this, this.position, this.texture);
-
-		// if one of its needed components are removed for some reason close this
-
 	}
 
 	@Override
