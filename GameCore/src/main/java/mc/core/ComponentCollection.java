@@ -32,10 +32,15 @@ public class ComponentCollection {
 	}
 
 	/* package */ void addComponent(Component component) {
-		getComps().add(component);
+		if (getComps().add(component)) {
+			this.onAdd.invoke(component);
+		}
+
 	}
 
 	/* package */ void removeComponent(Component component) {
-		getComps().remove(component);
+		if (getComps().remove(component)) {
+			this.onRemove.invoke(component);
+		}
 	}
 }

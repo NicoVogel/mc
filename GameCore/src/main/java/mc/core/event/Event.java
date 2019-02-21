@@ -38,7 +38,7 @@ public class Event<T> implements EventProvider<T> {
 	 */
 	public void invoke(T object) {
 		for (EventListener<T> eventInvoke : listeners) {
-			eventInvoke.invoke(object);
+			eventInvoke.notify(object);
 		}
 	}
 }
