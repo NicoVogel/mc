@@ -8,14 +8,18 @@ import java.util.stream.Collectors;
 public class Main {
 	static String className = "test.Comp";
 	static String methodName = "foo";
-	static int amount = 20;
+	static int amount = 50;
 
 	public static void main(String[] args) throws Exception {
 
 		ArrayList<Long> testNormal = new ArrayList<>();
 		ArrayList<Long> testInvoke = new ArrayList<>();
-
 		Comp comp = new Comp();
+		
+		// warmup
+		measure(() -> comp.foo(), new ArrayList<>());
+		
+		
 
 		Class<?> c = Class.forName(className);
 		Object obj = c.newInstance();
