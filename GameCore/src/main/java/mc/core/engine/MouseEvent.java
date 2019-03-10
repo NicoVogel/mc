@@ -19,8 +19,10 @@ public class MouseEvent extends EventObject {
 	private double mousePosX;
 	private double mousePosY;
 
+	private int pressedSince;
+
 	public MouseEvent(Object source, int mouseCode, boolean mouseDown, boolean mousePressed, boolean mouseRelease,
-			double mousePosX, double mousePosY) {
+			double mousePosX, double mousePosY, int pressedSince) {
 		super(source);
 		this.mouseCode = mouseCode;
 		this.mouseDown = mouseDown;
@@ -28,6 +30,7 @@ public class MouseEvent extends EventObject {
 		this.mouseRelease = mouseRelease;
 		this.mousePosX = mousePosX;
 		this.mousePosY = mousePosY;
+		this.pressedSince = pressedSince;
 	}
 
 }

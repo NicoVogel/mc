@@ -18,13 +18,15 @@ public class KeyEvent extends EventObject {
 	private boolean keyDown;
 	private boolean keyPressed;
 	private boolean keyRelease;
+	private int pressedSince;
 
-	public KeyEvent(Object arg0, char key, boolean keyDown, boolean keyPressed, boolean keyRelease) {
+	public KeyEvent(Object arg0, char key, boolean keyDown, boolean keyPressed, boolean keyRelease, int pressedSince) {
 		super(arg0);
 		this.key = key;
 		this.keyDown = keyDown;
 		this.keyPressed = keyPressed;
 		this.keyRelease = keyRelease;
+		this.pressedSince = pressedSince;
 	}
 
 }
