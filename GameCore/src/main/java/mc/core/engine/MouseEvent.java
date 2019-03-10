@@ -1,4 +1,4 @@
-package mc.engine.impl.input;
+package mc.core.engine;
 
 import java.util.EventObject;
 

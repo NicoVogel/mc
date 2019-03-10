@@ -1,6 +1,6 @@
-package mc.engine.impl.input;
+package mc.core.engine;
 
-import mc.engine.EventListener;
+import mc.core.event.EventListener;
 
 @FunctionalInterface
 public interface MouseInputListener extends EventListener<MouseEvent> {

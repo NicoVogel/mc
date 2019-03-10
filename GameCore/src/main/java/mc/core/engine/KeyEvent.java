@@ -1,4 +1,4 @@
-package mc.engine.impl.input;
+package mc.core.engine;
 
 import java.util.EventObject;
 
@@ -14,14 +14,14 @@ public class KeyEvent extends EventObject {
 	 */
 	private static final long serialVersionUID = 3648514306851405007L;
 
-	private int keyCode;
+	private char key;
 	private boolean keyDown;
 	private boolean keyPressed;
 	private boolean keyRelease;
 
-	public KeyEvent(Object arg0, int keyCode, boolean keyDown, boolean keyPressed, boolean keyRelease) {
+	public KeyEvent(Object arg0, char key, boolean keyDown, boolean keyPressed, boolean keyRelease) {
 		super(arg0);
-		this.keyCode = keyCode;
+		this.key = key;
 		this.keyDown = keyDown;
 		this.keyPressed = keyPressed;
 		this.keyRelease = keyRelease;
