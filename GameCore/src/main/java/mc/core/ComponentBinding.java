@@ -33,7 +33,7 @@ public class ComponentBinding implements EventListener<Component> {
 	}
 
 	@Override
-	public void notify(Component object) {
+	public void listen(Object sender, Component object) {
 		for (Component component : this.bindedComponents) {
 			if (object == component) {
 				close();

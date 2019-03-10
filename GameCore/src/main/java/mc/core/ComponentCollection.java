@@ -33,14 +33,14 @@ public class ComponentCollection {
 
 	/* package */ void addComponent(Component component) {
 		if (getComps().add(component)) {
-			this.onAdd.invoke(component);
+			this.onAdd.invoke(this, component);
 		}
 
 	}
 
 	/* package */ void removeComponent(Component component) {
 		if (getComps().remove(component)) {
-			this.onRemove.invoke(component);
+			this.onRemove.invoke(this, component);
 		}
 	}
 }

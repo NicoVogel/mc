@@ -36,9 +36,9 @@ public class Event<T> implements EventProvider<T> {
 	 * 
 	 * @param object
 	 */
-	public void invoke(T object) {
+	public void invoke(Object sender, T object) {
 		for (EventListener<T> eventInvoke : listeners) {
-			eventInvoke.notify(object);
+			eventInvoke.listen(sender, object);
 		}
 	}
 }
