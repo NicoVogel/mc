@@ -1,6 +1,9 @@
 package mc.core.engine.model;
 
 import lombok.Getter;
+import mc.core.engine.Engine;
+import mc.core.engine.KeyEvent;
+import mc.core.engine.MouseEvent;
 
 @Getter
 public class InputEvent {
@@ -40,6 +43,15 @@ public class InputEvent {
 
 	public boolean isKeyEvent() {
 		return this.mouseCode == 0;
+	}
+
+	public KeyEvent newKeyEvent(Engine sender) {
+		return new KeyEvent(sender, key, keyDown, keyPressed, keyRelease, pressedSince);
+	}
+
+	public MouseEvent newMouseEvent(Engine sender) {
+		return new MouseEvent(sender, mouseCode, mouseDown, mousePressed, mouseRelease, mousePosX, mousePosY,
+				pressedSince);
 	}
 
 }
