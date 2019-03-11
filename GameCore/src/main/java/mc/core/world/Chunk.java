@@ -22,7 +22,6 @@ public class Chunk {
 	private Vector2i position;
 	private Map<Vector3i, WorldObject> blocks;
 	private List<WorldObject> items;
-
 	private Event<ChunkEvent> onUpdate = new Event<>();
 
 	public Chunk(Vector2i position) {
