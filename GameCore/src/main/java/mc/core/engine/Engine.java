@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import mc.core.engine.model.InputEvent;
 import mc.core.world.Chunk;
+import mc.core.world.Player;
 
 public interface Engine {
 
@@ -12,14 +13,6 @@ public interface Engine {
 
 	Stream<Chunk> getChuncs();
 
-	double getPlayerX();
-
-	double getPlayerY();
-
-	double getPlayerZ();
-
-	double getCameraPitch();
-
-	double getCameraYaw();
+	Player getPlayer();
 
 }
