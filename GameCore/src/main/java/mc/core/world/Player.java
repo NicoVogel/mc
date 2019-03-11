@@ -1,10 +1,8 @@
 package mc.core.world;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 public class Player {
 
 	private double x;
@@ -13,5 +11,9 @@ public class Player {
 
 	private double pitch;
 	private double yaw;
+
+	public void setPosition(int x, int y, int z) {
+
+	}
 
 }
