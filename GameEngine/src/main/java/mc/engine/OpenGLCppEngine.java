@@ -22,7 +22,7 @@ public class OpenGLCppEngine implements Engine {
 	private PlayerView view;
 	
 	@Override
-	public Queue<InputEvent> getEventQueue() {
+	public Queue<InputEvent> getInputQueue() {
 		if(this.input == null) {
 			this.input = new LinkedList<>();
 		}

@@ -9,7 +9,7 @@ import mc.core.world.PlayerView;
 
 public interface Engine {
 
-	Queue<InputEvent> getEventQueue();
+	Queue<InputEvent> getInputQueue();
 
 	Queue<ChunkEvent> getChunkQueue();
 
