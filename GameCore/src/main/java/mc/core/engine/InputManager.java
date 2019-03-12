@@ -6,16 +6,19 @@ import java.util.List;
 import java.util.Queue;
 
 import mc.core.engine.model.InputEvent;
+import mc.core.event.Disposable;
+import mc.core.event.Disposer;
 import mc.core.event.Event;
 import mc.core.event.EventProvider;
 import mc.core.update.Updateable;
 
-public class InputManager implements Updateable{
+public class InputManager implements Updateable, Disposable {
 
 	private Engine engine;
 
 	private Event<KeyEvent> keyEvent;
 	private Event<MouseEvent> mouseEvent;
+	private Disposer disposer = new Disposer(this.keyEvent, this.mouseEvent);
 
 	public InputManager(Engine engine) {
 		this.engine = engine;
@@ -33,27 +36,27 @@ public class InputManager implements Updateable{
 		HashSet<Integer> mouseInput = new HashSet<>();
 		List<KeyEvent> keyEvent = new ArrayList<>();
 		List<MouseEvent> mouseEvent = new ArrayList<>();
-		
+
 		// for all events in queue
-		while(inputQueue.isEmpty() == false) {
+		while (inputQueue.isEmpty() == false) {
 			InputEvent event = inputQueue.poll();
-			if(event.isKeyEvent()) {
-				
+			if (event.isKeyEvent()) {
+
 				// get input as key event and add it if it does not already exist
 				KeyEvent key = event.newKeyEvent(this.engine);
-				if(keyInput.add(key.getKey())) {
+				if (keyInput.add(key.getKey())) {
 					keyEvent.add(key);
 				}
-			}else {
-				
+			} else {
+
 				// get input as mouse event and add if it does not already exist
 				MouseEvent mouse = event.newMouseEvent(this.engine);
-				if(mouseInput.add(mouse.getMouseCode())) {
+				if (mouseInput.add(mouse.getMouseCode())) {
 					mouseEvent.add(mouse);
 				}
 			}
 		}
-		
+
 		// invoke all event listener
 		for (MouseEvent m : mouseEvent) {
 			this.mouseEvent.invoke(this.engine, m);
@@ -69,5 +72,10 @@ public class InputManager implements Updateable{
 
 	public EventProvider<MouseEvent> OnMouse() {
 		return this.mouseEvent;
+	}
+
+	@Override
+	public void dispose() {
+		this.disposer.dispose();
 	}
 }
