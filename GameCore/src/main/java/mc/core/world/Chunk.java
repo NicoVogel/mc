@@ -6,11 +6,12 @@ import java.util.List;
 import org.joml.Vector2i;
 
 import lombok.Getter;
+import mc.core.event.Disposable;
 import mc.core.event.Event;
 import mc.core.event.EventProvider;
 import mc.core.world.event.ChunkEvent;
 
-public class Chunk {
+public class Chunk implements Disposable {
 
 	@Getter
 	private int x;
@@ -53,6 +54,11 @@ public class Chunk {
 
 	public EventProvider<ChunkEvent> OnUpdate() {
 		return this.onUpdate;
+	}
+
+	@Override
+	public void dispose() {
+		this.onUpdate.dispose();
 	}
 
 }
