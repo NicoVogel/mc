@@ -1,5 +1,8 @@
 package mc.core.world;
 
+import org.joml.Vector2d;
+import org.joml.Vector3d;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import mc.core.event.Event;
@@ -20,6 +23,14 @@ public class Player {
 	private Event<PlayerEvent> onUpdate = new Event<>();
 	
 
+	public void setPosition(Vector3d position) {
+		setPosition(position.x, position.y, position.z);
+	}
+	
+	public Vector3d getPostionV() {
+		return new Vector3d(this.x, this.y, this.z);
+	}
+	
 	public void setPosition(double x, double y, double z) {
 		if (this.x != x || this.y != y || this.z != z) {
 			PlayerEvent event = new PlayerEvent(this.x, this.y, this.z, x, y, z);
@@ -28,6 +39,14 @@ public class Player {
 			this.y = y;
 			this.z = z;
 		}
+	}
+	
+	public void setCamera(Vector2d camera) {
+		setCamera(camera.x, camera.y);
+	}
+	
+	public Vector2d getCameraV() {
+		return new Vector2d(this.pitch, this.yaw);
 	}
 	
 	public void setCamera(double pitch, double yaw) {
