@@ -8,11 +8,13 @@ import java.util.ListIterator;
 
 import mc.core.event.Event;
 
-public class ObservableList<E> implements List<E> {
+public class ObservableListImpl<E> implements List<E> {
 
 	private ArrayList<E> list = new ArrayList<>();
 
 	private Event<ListAddEvent> onAdd;
+	
+	
 
 	@Override
 	public boolean add(E arg0) {
