@@ -22,5 +22,7 @@ public interface Engine {
 	void setView(PlayerView view);
 	
 	void start();
+	
+	String getDescription();
 
 }

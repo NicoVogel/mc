@@ -49,4 +49,9 @@ public class OpenGLCppEngine implements Engine {
 		//TODO add code which executes the cpp library
 	}
 
+	@Override
+	public String getDescription() {
+		return "OpenGL 3 C++ Implementation";
+	}
+
 }
