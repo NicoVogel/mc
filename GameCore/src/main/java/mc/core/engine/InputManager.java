@@ -2,8 +2,9 @@ package mc.core.engine;
 
 import mc.core.event.Event;
 import mc.core.event.EventProvider;
+import mc.core.update.Updateable;
 
-public class InputManager {
+public class InputManager implements Updateable{
 
 	private Engine engine;
 
@@ -19,6 +20,7 @@ public class InputManager {
 		this.mouseEvent = new Event<>();
 	}
 
+	@Override
 	public void update() {
 		// TODO check engine buffer
 	}
