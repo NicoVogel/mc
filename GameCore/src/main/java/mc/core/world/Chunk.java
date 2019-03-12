@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joml.Vector2i;
+import org.joml.Vector3i;
 
 import lombok.Getter;
 import mc.core.event.Disposable;
@@ -31,14 +32,24 @@ public class Chunk implements Disposable {
 		this.parent = parent;
 		this.x = x;
 		this.y = y;
+		this.blocks = new WorldObject[this.parent.getChunkWidth()][this.parent.getChunkHeight()][this.parent
+				.getChunkLength()];
 	}
 
-	public WorldObject[][][] getBlocks() {
-		if (this.blocks == null) {
-			this.blocks = new WorldObject[this.parent.getChunkWidth()][this.parent.getChunkHeight()][this.parent
-					.getChunkLength()];
-		}
-		return this.blocks;
+	public WorldObject getBlock(Vector3i position) {
+		return getBlock(position.x, position.y, position.z);
+	}
+
+	public WorldObject getBlock(int x, int y, int z) {
+		return this.blocks[x][y][z];
+	}
+
+	public void setBlock(WorldObject wo, Vector3i position) {
+		setBlock(wo, position.x, position.y, position.z);
+	}
+
+	public void setBlock(WorldObject wo, int x, int y, int z) {
+		this.blocks[x][y][z] = wo;
 	}
 
 	public List<WorldObject> getItems() {
