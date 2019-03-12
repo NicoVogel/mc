@@ -2,7 +2,7 @@ package mc.core.event;
 
 import java.util.HashSet;
 
-public class Event<T> implements EventProvider<T> {
+public class Event<T> implements EventProvider<T>, Disposable {
 
 	private HashSet<EventListener<T>> listeners;
 
@@ -40,5 +40,10 @@ public class Event<T> implements EventProvider<T> {
 		for (EventListener<T> eventInvoke : listeners) {
 			eventInvoke.listen(sender, object);
 		}
+	}
+
+	@Override
+	public void dispose() {
+		this.listeners.clear();
 	}
 }
