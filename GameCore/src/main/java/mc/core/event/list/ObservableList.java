@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import mc.core.event.EventProvider;
+import mc.core.event.OldNewEvent;
 
 public interface ObservableList<E> extends List<E> {
 
@@ -35,6 +36,6 @@ public interface ObservableList<E> extends List<E> {
 	 * get the old and new element
 	 * @return
 	 */
-	EventProvider<ListSetEvent<E>> OnSet();
+	EventProvider<OldNewEvent<E>> OnSet();
 	
 }

@@ -8,6 +8,7 @@ import java.util.ListIterator;
 
 import mc.core.event.Event;
 import mc.core.event.EventProvider;
+import mc.core.event.OldNewEvent;
 
 public class ObservableListImpl<E> implements ObservableList<E> {
 
@@ -17,7 +18,7 @@ public class ObservableListImpl<E> implements ObservableList<E> {
 	private Event<E> onRemove;
 	private Event<Collection<? extends E>> onAddAll;
 	private Event<Collection<? extends E>> onRemoveAll;
-	private Event<ListSetEvent<E>> onSet;
+	private Event<OldNewEvent<E>> onSet;
 	
 	public ObservableListImpl(List<E> list) {
 		this.list = list;
@@ -159,7 +160,7 @@ public class ObservableListImpl<E> implements ObservableList<E> {
 	@Override
 	public E set(int arg0, E arg1) {
 		E value = this.list.set(arg0, arg1);
-		this.onSet.invoke(this, new ListSetEvent<E>(value, arg1));
+		this.onSet.invoke(this, new OldNewEvent<E>(value, arg1));
 		return value;
 	}
 
@@ -204,7 +205,7 @@ public class ObservableListImpl<E> implements ObservableList<E> {
 	}
 
 	@Override
-	public EventProvider<ListSetEvent<E>> OnSet() {
+	public EventProvider<OldNewEvent<E>> OnSet() {
 		return this.onSet;
 	}
 
