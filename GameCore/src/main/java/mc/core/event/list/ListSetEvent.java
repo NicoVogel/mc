@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ListAddEvent<E> {
+public class ListSetEvent<E> {
 
 	private E oldObject;
 	private E newObject;
