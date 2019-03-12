@@ -1,5 +1,8 @@
 package mc.core.world.event;
 
+import org.joml.Vector2d;
+import org.joml.Vector3d;
+
 import lombok.Getter;
 
 @Getter
@@ -41,6 +44,22 @@ public class PlayerEvent {
 	
 	public boolean isPositionEvent() {
 		return this.type == PlayerEventType.POSITION;
+	}
+	
+	public Vector3d getOldPosition() {
+		return new Vector3d(this.oldX, this.oldY, this.oldZ);
+	}
+	
+	public Vector3d getNewPosition() {
+		return new Vector3d(this.newX, this.newY, this.newZ);
+	}
+	
+	public Vector2d getOldCamera() {
+		return new Vector2d(this.oldPitch, this.oldYaw);
+	}
+	
+	public Vector2d getNewCamera() {
+		return new Vector2d(this.newPitch, this.newYaw);
 	}
 	
 }
