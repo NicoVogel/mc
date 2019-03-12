@@ -2,11 +2,8 @@ package mc.core.world;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import org.joml.Vector2i;
-import org.joml.Vector3i;
 
 import lombok.Getter;
 import mc.core.event.Event;
@@ -15,27 +12,30 @@ import mc.core.world.event.ChunkEvent;
 
 public class Chunk {
 
-	public static final int WIDTH = 16;
-	public static final int LENGTH = 16;
-	public static final int HEIGHT = 256;
-
 	@Getter
-	private Vector2i position;
-	private Map<Vector3i, WorldObject> blocks;
+	private int x;
+	@Getter
+	private int y;
+	private WorldObject[][][] blocks;
 	private List<WorldObject> items;
 	private Event<ChunkEvent> onUpdate = new Event<>();
+	private World parent;
 
-	public Chunk(Vector2i position) {
-		this.position = position;
+	public Chunk(World parent, Vector2i position) {
+		this(parent, position.x, position.y);
+
 	}
 
-	public Chunk(int x, int y) {
-		this(new Vector2i(x, y));
+	public Chunk(World parent, int x, int y) {
+		this.parent = parent;
+		this.x = x;
+		this.y = y;
 	}
 
-	public Map<Vector3i, WorldObject> getBlocks() {
+	public WorldObject[][][] getBlocks() {
 		if (this.blocks == null) {
-			this.blocks = new TreeMap<>();
+			this.blocks = new WorldObject[this.parent.getChunkWidth()][this.parent.getChunkHeight()][this.parent
+					.getChunkLength()];
 		}
 		return this.blocks;
 	}
@@ -45,6 +45,10 @@ public class Chunk {
 			this.items = new ArrayList<>();
 		}
 		return this.items;
+	}
+
+	public Vector2i getPosition() {
+		return new Vector2i(this.x, this.y);
 	}
 
 	public EventProvider<ChunkEvent> OnUpdate() {
