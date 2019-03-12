@@ -16,6 +16,8 @@ public abstract class Controller<T extends Component> {
 		this.handles = (Class<T>) ReflectHelper.getFirstGenericParameter(this.getClass());
 		if (this.handles != null) {
 			this.canBeUsed = true;
+		} else {
+
 		}
 	}
 
