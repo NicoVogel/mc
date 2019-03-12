@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.ListIterator;
 
 import mc.core.event.Event;
+import mc.core.event.EventProvider;
 
-public class ObservableListImpl<E> implements List<E> {
+public class ObservableListImpl<E> implements ObservableList<E> {
 
 	private ArrayList<E> list = new ArrayList<>();
 
@@ -150,6 +151,36 @@ public class ObservableListImpl<E> implements List<E> {
 
 	@Override
 	public <T> T[] toArray(T[] arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EventProvider<E> OnAdd() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EventProvider<E> OnRemove() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EventProvider<E> OnAddCollection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EventProvider<E> OnRemoveCollection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EventProvider<E> OnSet() {
 		// TODO Auto-generated method stub
 		return null;
 	}
