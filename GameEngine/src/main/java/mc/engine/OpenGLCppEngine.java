@@ -33,10 +33,10 @@ public class OpenGLCppEngine implements Engine {
 			throw new IllegalArgumentException("cannot set a player which is null!");
 		}
 		if(this.player != null) {
-			this.player.OnUpdatePosition().remove(this.listener);
+			this.player.OnUpdate().remove(this.listener);
 		}
 		this.player = player;
-		this.player.OnUpdatePosition().add(this.listener);
+		this.player.OnUpdate().add(this.listener);
 	}
 	
 	public Queue<PlayerEvent> getPositionUpdate(){
