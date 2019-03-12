@@ -7,7 +7,7 @@ import lombok.Getter;
 import mc.core.event.Disposable;
 import mc.core.event.Event;
 import mc.core.event.EventProvider;
-import mc.core.world.event.WorldObjectEvent;
+import mc.core.world.event.WorldObjectEventType;
 
 @Getter
 public class WorldObject implements Disposable {
@@ -19,12 +19,12 @@ public class WorldObject implements Disposable {
 	private double z;
 	private Chunk parent;
 	@Getter(value = AccessLevel.PRIVATE)
-	private Event<WorldObjectEvent> stateChanged;
-	
+	private Event<WorldObjectEventType> stateChanged;
+
 	public WorldObject(int id, int state, Chunk chunk, Vector3d position) {
 		this(id, state, chunk, position.x, position.y, position.z);
 	}
-	
+
 	public WorldObject(int id, int state, Chunk chunk, double x, double y, double z) {
 		this.id = id;
 		this.state = state;
@@ -33,18 +33,19 @@ public class WorldObject implements Disposable {
 		this.y = y;
 		this.z = z;
 	}
-	
+
 	public Vector3d getPosition() {
 		return new Vector3d(this.x, this.y, this.z);
 	}
-	
+
 	public void setState(int state) {
-		if(this.state != state) {
-			
+		if (this.state != state) {
+			this.state = state;
+			this.stateChanged.invoke(this, WorldObjectEventType.UPDATE);
 		}
 	}
-	
-	public EventProvider<WorldObjectEvent> OnStateChanged(){
+
+	public EventProvider<WorldObjectEventType> OnStateChanged() {
 		return this.stateChanged;
 	}
 
