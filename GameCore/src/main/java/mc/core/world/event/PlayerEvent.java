@@ -39,4 +39,8 @@ public class PlayerEvent {
 		this.type = PlayerEventType.CAMERA;
 	}
 	
+	public boolean isPositionEvent() {
+		return this.type == PlayerEventType.POSITION;
+	}
+	
 }
