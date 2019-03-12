@@ -18,5 +18,10 @@
 			<artifactId>joml</artifactId>
 			<version>1.9.12</version>
 		</dependency>
+		<dependency>
+			<groupId>mc</groupId>
+			<artifactId>logger</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 </project>
