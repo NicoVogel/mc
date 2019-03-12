@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import mc.core.event.Event;
 import mc.core.event.EventProvider;
+import mc.core.world.event.PlayerEvent;
 
 @Getter
 public class Player {
@@ -18,10 +19,16 @@ public class Player {
 	@Getter(value = AccessLevel.PRIVATE)
 	private Event<PlayerEvent> onUpdatePosition = new Event<>();
 
-	public void setPosition(int x, int y, int z) {
-		if (this.x != x && this.y != y && this.z != z) {
+	public void setPosition(double x, double y, double z) {
+		if (this.x != x || this.y != y || this.z != z) {
 			PlayerEvent event = new PlayerEvent(this.x, this.y, this.z, x, y, z);
 			this.onUpdatePosition.invoke(this, event);
+		}
+	}
+	
+	public void setCamera(double pitch, double yaw) {
+		if(this.pitch != pitch || this.yaw != yaw) {
+			
 		}
 	}
 

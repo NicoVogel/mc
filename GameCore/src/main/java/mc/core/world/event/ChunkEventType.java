@@ -1,4 +1,4 @@
-package mc.core.world;
+package mc.core.world.event;
 
 public enum ChunkEventType {
 

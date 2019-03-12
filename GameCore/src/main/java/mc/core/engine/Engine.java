@@ -3,9 +3,9 @@ package mc.core.engine;
 import java.util.Queue;
 
 import mc.core.engine.model.InputEvent;
-import mc.core.world.ChunkEvent;
 import mc.core.world.Player;
 import mc.core.world.PlayerView;
+import mc.core.world.event.ChunkEvent;
 
 public interface Engine {
 

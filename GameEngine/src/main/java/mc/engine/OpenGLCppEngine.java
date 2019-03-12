@@ -7,19 +7,44 @@ import lombok.Getter;
 import lombok.Setter;
 import mc.core.engine.Engine;
 import mc.core.engine.model.InputEvent;
-import mc.core.world.ChunkEvent;
+import mc.core.event.EventListener;
 import mc.core.world.Player;
 import mc.core.world.PlayerView;
+import mc.core.world.event.ChunkEvent;
+import mc.core.world.event.PlayerEvent;
 
 @Getter
 public class OpenGLCppEngine implements Engine {
 
 	private Queue<InputEvent> input;
 	private Queue<ChunkEvent> chunk;
-	@Setter
+	private Queue<PlayerEvent> position;
+	private PlayerPositionListener listener;
 	private Player player;
 	@Setter
 	private PlayerView view;
+	
+	public OpenGLCppEngine() {
+		this.listener = new PlayerPositionListener();
+	}
+	
+	public void setPlayer(Player player) {
+		if(player == null) {
+			throw new IllegalArgumentException("cannot set a player which is null!");
+		}
+		if(this.player != null) {
+			this.player.OnUpdatePosition().remove(this.listener);
+		}
+		this.player = player;
+		this.player.OnUpdatePosition().add(this.listener);
+	}
+	
+	public Queue<PlayerEvent> getPositionUpdate(){
+		if(this.position == null) {
+			this.position = new LinkedList<>();
+		}
+		return this.position;
+	}
 	
 	@Override
 	public Queue<InputEvent> getInputQueue() {
@@ -52,6 +77,15 @@ public class OpenGLCppEngine implements Engine {
 	@Override
 	public String getDescription() {
 		return "OpenGL 3 C++ Implementation";
+	}
+	
+	private class PlayerPositionListener implements EventListener<PlayerEvent>{
+
+		@Override
+		public void listen(Object sender, PlayerEvent object) {
+			position.add(object);
+		}
+		
 	}
 
 }
