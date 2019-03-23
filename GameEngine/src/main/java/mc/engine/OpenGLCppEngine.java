@@ -7,6 +7,7 @@ import org.joml.Vector2d;
 import org.joml.Vector3d;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mc.core.engine.Engine;
 import mc.core.engine.WindowCloseEvent;
@@ -17,18 +18,19 @@ import mc.core.event.EventProvider;
 import mc.core.event.OldNewValueEvent;
 import mc.core.world.Player;
 import mc.core.world.PlayerView;
-import mc.core.world.event.ChunkEvent;
+import mc.core.world.event.PlayerViewEvent;
+import mc.engine.modelmaps.PlayerTO;
 
 @Getter
+@NoArgsConstructor
 public class OpenGLCppEngine implements Engine {
 
 	private Queue<InputEvent> input;
-	private Queue<ChunkEvent> chunk;
-	private Queue<OldNewValueEvent<Vector3d>> position;
-	private Queue<OldNewValueEvent<Vector2d>> camera;
+	private Queue<PlayerViewEvent> chunk;
 	private PlayerPositionListener positionListener = new PlayerPositionListener();
 	private PlayerCameraListener cameraListener = new PlayerCameraListener();
 	private Player player;
+	private PlayerTO playerTo;
 	private Event<WindowCloseEvent> onClose;
 	@Setter
 	private PlayerView view;
@@ -42,22 +44,9 @@ public class OpenGLCppEngine implements Engine {
 			this.player.OnCameraUpdate().remove(this.cameraListener);
 		}
 		this.player = player;
+		this.playerTo = convert(this.player);
 		this.player.OnPositionUpdate().add(this.positionListener);
 		this.player.OnCameraUpdate().add(this.cameraListener);
-	}
-
-	public Queue<OldNewValueEvent<Vector3d>> getPositionUpdate() {
-		if (this.position == null) {
-			this.position = new LinkedList<>();
-		}
-		return this.position;
-	}
-
-	public Queue<OldNewValueEvent<Vector2d>> getCameraUpdate() {
-		if (this.camera == null) {
-			this.camera = new LinkedList<>();
-		}
-		return this.camera;
 	}
 
 	@Override
@@ -69,7 +58,7 @@ public class OpenGLCppEngine implements Engine {
 	}
 
 	@Override
-	public Queue<ChunkEvent> getChunkQueue() {
+	public Queue<PlayerViewEvent> getChunkQueue() {
 		if (this.chunk == null) {
 			this.chunk = new LinkedList<>();
 		}
@@ -103,11 +92,33 @@ public class OpenGLCppEngine implements Engine {
 		this.onClose.invoke(this, new WindowCloseEvent(true));
 	}
 
+	public void createMouseEvent(int mouseCode, boolean mouseDown, boolean mousePressed, boolean mouseRelease,
+			double mousePosX, double mousePosY, int pressedSince) {
+		getInputQueue().add(
+				new InputEvent(mouseCode, mouseDown, mousePressed, mouseRelease, mousePosX, mousePosY, pressedSince));
+	}
+
+	public void createKeyEvent(char key, boolean keyDown, boolean keyPressed, boolean keyRelease, int pressedSince) {
+		getInputQueue().add(new InputEvent(key, keyDown, keyPressed, keyRelease, pressedSince));
+	}
+
+	private PlayerTO convert(Player player) {
+		PlayerTO to = new PlayerTO();
+		to.pitch = player.getPitch();
+		to.x = player.getX();
+		to.y = player.getY();
+		to.yaw = player.getYaw();
+		to.z = player.getZ();
+		return to;
+	}
+
 	private class PlayerPositionListener implements EventListener<OldNewValueEvent<Vector3d>> {
 
 		@Override
 		public void listen(Object sender, OldNewValueEvent<Vector3d> object) {
-			position.add(object);
+			playerTo.x = object.getNewValue().x;
+			playerTo.y = object.getNewValue().y;
+			playerTo.z = object.getNewValue().z;
 		}
 
 	}
@@ -116,7 +127,8 @@ public class OpenGLCppEngine implements Engine {
 
 		@Override
 		public void listen(Object sender, OldNewValueEvent<Vector2d> object) {
-			camera.add(object);
+			playerTo.pitch = object.getNewValue().x;
+			playerTo.yaw = object.getNewValue().y;
 		}
 
 	}
