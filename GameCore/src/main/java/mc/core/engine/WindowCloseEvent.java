@@ -7,6 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class WindowCloseEvent {
 
-	private boolean userAction;
+	private boolean engineForceClose;
 
 }
