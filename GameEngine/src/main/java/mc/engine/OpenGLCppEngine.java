@@ -19,7 +19,6 @@ import mc.core.event.OldNewValueEvent;
 import mc.core.world.Player;
 import mc.core.world.PlayerView;
 import mc.core.world.event.PlayerViewEvent;
-import mc.engine.modelmaps.PlayerTO;
 
 @Getter
 @NoArgsConstructor
@@ -30,10 +29,13 @@ public class OpenGLCppEngine implements Engine {
 	private PlayerPositionListener positionListener = new PlayerPositionListener();
 	private PlayerCameraListener cameraListener = new PlayerCameraListener();
 	private Player player;
-	private PlayerTO playerTo;
 	private Event<WindowCloseEvent> onClose;
 	@Setter
 	private PlayerView view;
+
+	static {
+//TODO native methods einbinden
+	}
 
 	public void setPlayer(Player player) {
 		if (player == null) {
@@ -44,7 +46,6 @@ public class OpenGLCppEngine implements Engine {
 			this.player.OnCameraUpdate().remove(this.cameraListener);
 		}
 		this.player = player;
-		this.playerTo = convert(this.player);
 		this.player.OnPositionUpdate().add(this.positionListener);
 		this.player.OnCameraUpdate().add(this.cameraListener);
 	}
@@ -73,8 +74,9 @@ public class OpenGLCppEngine implements Engine {
 		if (this.view == null) {
 			throw new IllegalArgumentException("Cannot start the Engine without a view");
 		}
-
-		// TODO add code which executes the cpp library
+		updatePlayerPosition(this.player.getX(), this.player.getY(), this.player.getZ());
+		updatePlayerCamera(this.player.getPitch(), this.player.getYaw());
+		run();
 	}
 
 	@Override
@@ -89,46 +91,100 @@ public class OpenGLCppEngine implements Engine {
 
 	@Override
 	public void close() {
+		stop();
+		this.onClose.invoke(this, new WindowCloseEvent(false));
+	}
+
+	/**
+	 * update player position in c++
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public native void updatePlayerPosition(double x, double y, double z);
+
+	/**
+	 * update player camera in c++
+	 * 
+	 * @param pitch
+	 * @param yaw
+	 */
+	public native void updatePlayerCamera(double pitch, double yaw);
+
+	/**
+	 * start c++ rendering
+	 */
+	public native void run();
+
+	/**
+	 * stop the c++ rendering
+	 */
+	public native void stop();
+
+	/**
+	 * called by c++ to inform java, that the window was closed/ is closing
+	 */
+	public void userClosedWindow() {
 		this.onClose.invoke(this, new WindowCloseEvent(true));
 	}
 
+	/**
+	 * called by c++ to inform java, that a mouse event happend
+	 * 
+	 * @param mouseCode
+	 * @param mouseDown
+	 * @param mousePressed
+	 * @param mouseRelease
+	 * @param mousePosX
+	 * @param mousePosY
+	 * @param pressedSince
+	 */
 	public void createMouseEvent(int mouseCode, boolean mouseDown, boolean mousePressed, boolean mouseRelease,
 			double mousePosX, double mousePosY, int pressedSince) {
 		getInputQueue().add(
 				new InputEvent(mouseCode, mouseDown, mousePressed, mouseRelease, mousePosX, mousePosY, pressedSince));
 	}
 
+	/**
+	 * called by c++ to inform java, that a key event happend
+	 * 
+	 * @param key
+	 * @param keyDown
+	 * @param keyPressed
+	 * @param keyRelease
+	 * @param pressedSince
+	 */
 	public void createKeyEvent(char key, boolean keyDown, boolean keyPressed, boolean keyRelease, int pressedSince) {
 		getInputQueue().add(new InputEvent(key, keyDown, keyPressed, keyRelease, pressedSince));
 	}
 
-	private PlayerTO convert(Player player) {
-		PlayerTO to = new PlayerTO();
-		to.pitch = player.getPitch();
-		to.x = player.getX();
-		to.y = player.getY();
-		to.yaw = player.getYaw();
-		to.z = player.getZ();
-		return to;
-	}
-
+	/**
+	 * used to update player position
+	 * 
+	 * @author Nico
+	 *
+	 */
 	private class PlayerPositionListener implements EventListener<OldNewValueEvent<Vector3d>> {
 
 		@Override
 		public void listen(Object sender, OldNewValueEvent<Vector3d> object) {
-			playerTo.x = object.getNewValue().x;
-			playerTo.y = object.getNewValue().y;
-			playerTo.z = object.getNewValue().z;
+			updatePlayerPosition(object.getNewValue().x, object.getNewValue().y, object.getNewValue().z);
 		}
 
 	}
 
+	/**
+	 * used to update camera position
+	 * 
+	 * @author Nico
+	 *
+	 */
 	private class PlayerCameraListener implements EventListener<OldNewValueEvent<Vector2d>> {
 
 		@Override
 		public void listen(Object sender, OldNewValueEvent<Vector2d> object) {
-			playerTo.pitch = object.getNewValue().x;
-			playerTo.yaw = object.getNewValue().y;
+			updatePlayerCamera(object.getNewValue().x, object.getNewValue().y);
 		}
 
 	}
