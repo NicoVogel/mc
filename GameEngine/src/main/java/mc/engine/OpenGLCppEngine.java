@@ -8,7 +8,6 @@ import org.joml.Vector3d;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import mc.core.engine.Engine;
 import mc.core.engine.WindowCloseEvent;
 import mc.core.engine.model.InputEvent;
@@ -30,13 +29,21 @@ public class OpenGLCppEngine implements Engine {
 	private PlayerCameraListener cameraListener = new PlayerCameraListener();
 	private Player player;
 	private Event<WindowCloseEvent> onClose;
-	@Setter
 	private PlayerView view;
 
 	static {
 //TODO native methods einbinden
 	}
 
+	@Override
+	public void setView(PlayerView view) {
+		if (view == null) {
+			throw new IllegalArgumentException("cannot set a playerview which is null!");
+		}
+		this.view = view;
+	}
+
+	@Override
 	public void setPlayer(Player player) {
 		if (player == null) {
 			throw new IllegalArgumentException("cannot set a player which is null!");
