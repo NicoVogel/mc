@@ -24,7 +24,7 @@ import mc.core.world.event.PlayerViewEvent;
 public class OpenGLCppEngine implements Engine {
 
 	private Queue<InputEvent> input;
-	private Queue<PlayerViewEvent> chunk;
+	private Queue<PlayerViewEvent> update;
 	private PlayerPositionListener positionListener = new PlayerPositionListener();
 	private PlayerCameraListener cameraListener = new PlayerCameraListener();
 	private Player player;
@@ -60,17 +60,17 @@ public class OpenGLCppEngine implements Engine {
 	@Override
 	public Queue<InputEvent> getInputQueue() {
 		if (this.input == null) {
-			this.input = new LinkedList<>();
+			this.input = new ObservableLinkedList<>();
 		}
 		return this.input;
 	}
 
 	@Override
 	public Queue<PlayerViewEvent> getChunkQueue() {
-		if (this.chunk == null) {
-			this.chunk = new LinkedList<>();
+		if (this.update == null) {
+			this.update = new LinkedList<>();
 		}
-		return this.chunk;
+		return this.update;
 	}
 
 	@Override
@@ -81,6 +81,7 @@ public class OpenGLCppEngine implements Engine {
 		if (this.view == null) {
 			throw new IllegalArgumentException("Cannot start the Engine without a view");
 		}
+
 		updatePlayerPosition(this.player.getX(), this.player.getY(), this.player.getZ());
 		updatePlayerCamera(this.player.getPitch(), this.player.getYaw());
 		run();
@@ -100,6 +101,16 @@ public class OpenGLCppEngine implements Engine {
 	public void close() {
 		stop();
 		this.onClose.invoke(this, new WindowCloseEvent(false));
+	}
+
+	/**
+	 * informs c++ about and world update which is in player range
+	 */
+	public void incommingUpdate() {
+		PlayerViewEvent e = getUpdate().poll();
+		if (e != null) {
+			updateWorld(e);
+		}
 	}
 
 	/**
@@ -128,6 +139,13 @@ public class OpenGLCppEngine implements Engine {
 	 * stop the c++ rendering
 	 */
 	public native void stop();
+
+	/**
+	 * is called if an update in incoming for the world and informs c++ about it
+	 * 
+	 * @param update
+	 */
+	public native void updateWorld(PlayerViewEvent update);
 
 	/**
 	 * called by c++ to inform java, that the window was closed/ is closing
@@ -194,6 +212,30 @@ public class OpenGLCppEngine implements Engine {
 			updatePlayerCamera(object.getNewValue().x, object.getNewValue().y);
 		}
 
+	}
+
+	/**
+	 * used to invoke the incommingUpdate method if new information is passed into
+	 * the queue
+	 * 
+	 * @author Nico
+	 *
+	 * @param <T>
+	 */
+	private class ObservableLinkedList<T> extends LinkedList<T> {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -1194559243239094557L;
+
+		@Override
+		public boolean add(T e) {
+			if (super.add(e)) {
+				incommingUpdate();
+				return true;
+			}
+			return false;
+		}
 	}
 
 }
