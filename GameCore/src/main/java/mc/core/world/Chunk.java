@@ -11,6 +11,7 @@ import mc.core.event.Disposable;
 import mc.core.event.Event;
 import mc.core.event.EventProvider;
 import mc.core.world.event.ChunkEvent;
+import mc.core.world.event.WorldObjectEventType;
 
 public class Chunk implements Disposable {
 
@@ -21,6 +22,7 @@ public class Chunk implements Disposable {
 	private WorldObject[][][] blocks;
 	private List<WorldObject> items;
 	private Event<ChunkEvent> onUpdate = new Event<>();
+	private Event<WorldObjectEventType> onChange = new Event<>();
 	private World parent;
 
 	public Chunk(World parent, Vector2i position) {
@@ -49,6 +51,14 @@ public class Chunk implements Disposable {
 	}
 
 	public void setBlock(WorldObject wo, int x, int y, int z) {
+		WorldObject block = this.blocks[x][y][z];
+		if (wo == null && block == null) {
+			return;
+		}
+		if (wo == null && block != null) {
+
+			this.blocks[x][y][z] = null;
+		}
 		this.blocks[x][y][z] = wo;
 	}
 
@@ -65,6 +75,10 @@ public class Chunk implements Disposable {
 
 	public EventProvider<ChunkEvent> OnUpdate() {
 		return this.onUpdate;
+	}
+
+	public EventProvider<WorldObjectEventType> OnChange() {
+		return this.onChange;
 	}
 
 	@Override
