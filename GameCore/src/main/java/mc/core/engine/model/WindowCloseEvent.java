@@ -1,4 +1,4 @@
-package mc.core.engine;
+package mc.core.engine.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Queue;
 
 import mc.core.engine.model.InputEvent;
+import mc.core.engine.model.KeyEvent;
+import mc.core.engine.model.MouseEvent;
 import mc.core.event.Disposable;
 import mc.core.event.Disposer;
 import mc.core.event.Event;

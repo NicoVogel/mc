@@ -2,8 +2,6 @@ package mc.core.engine.model;
 
 import lombok.Getter;
 import mc.core.engine.Engine;
-import mc.core.engine.KeyEvent;
-import mc.core.engine.MouseEvent;
 
 @Getter
 public class InputEvent {
