@@ -9,7 +9,7 @@ import mc.core.event.Disposable;
 import mc.core.event.Disposer;
 import mc.core.event.Event;
 import mc.core.event.EventProvider;
-import mc.core.event.OldNewEvent;
+import mc.core.event.OldNewValueEvent;
 
 @Getter
 public class Player implements Disposable{
@@ -22,9 +22,9 @@ public class Player implements Disposable{
 	private double yaw;
 
 	@Getter(value = AccessLevel.PRIVATE)
-	private Event<OldNewEvent<Vector3d>> onPositionUpdate = new Event<>();
+	private Event<OldNewValueEvent<Vector3d>> onPositionUpdate = new Event<>();
 	@Getter(value = AccessLevel.PRIVATE)
-	private Event<OldNewEvent<Vector2d>> onCameraUpdate = new Event<>();
+	private Event<OldNewValueEvent<Vector2d>> onCameraUpdate = new Event<>();
 	@Getter(value = AccessLevel.PRIVATE)
 	private Disposer dispose = new Disposer(this.onPositionUpdate, this.onCameraUpdate);
 	
@@ -40,7 +40,7 @@ public class Player implements Disposable{
 	
 	public void setPosition(double x, double y, double z) {
 		if (this.x != x || this.y != y || this.z != z) {
-			OldNewEvent<Vector3d> event = new OldNewEvent<Vector3d>(new Vector3d(this.x, this.y, this.z),new Vector3d( x, y, z));
+			OldNewValueEvent<Vector3d> event = new OldNewValueEvent<Vector3d>(new Vector3d(this.x, this.y, this.z),new Vector3d( x, y, z));
 			this.onPositionUpdate.invoke(this, event);
 			this.x = x;
 			this.y = y;
@@ -58,18 +58,18 @@ public class Player implements Disposable{
 	
 	public void setCamera(double pitch, double yaw) {
 		if(this.pitch != pitch || this.yaw != yaw) {
-			OldNewEvent<Vector2d> event = new OldNewEvent<Vector2d>(new Vector2d(this.pitch, this.yaw), new Vector2d(pitch, yaw));
+			OldNewValueEvent<Vector2d> event = new OldNewValueEvent<Vector2d>(new Vector2d(this.pitch, this.yaw), new Vector2d(pitch, yaw));
 			this.onCameraUpdate.invoke(this, event);
 			this.pitch = pitch;
 			this.yaw = yaw;
 		}
 	}
 
-	public EventProvider<OldNewEvent<Vector3d>> OnPositionUpdate() {
+	public EventProvider<OldNewValueEvent<Vector3d>> OnPositionUpdate() {
 		return this.onPositionUpdate;
 	}
 	
-	public EventProvider<OldNewEvent<Vector2d>> OnCameraUpdate(){
+	public EventProvider<OldNewValueEvent<Vector2d>> OnCameraUpdate(){
 		return this.onCameraUpdate;
 	}
 

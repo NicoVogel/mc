@@ -14,7 +14,7 @@ import mc.core.engine.model.InputEvent;
 import mc.core.event.Event;
 import mc.core.event.EventListener;
 import mc.core.event.EventProvider;
-import mc.core.event.OldNewEvent;
+import mc.core.event.OldNewValueEvent;
 import mc.core.world.Player;
 import mc.core.world.PlayerView;
 import mc.core.world.event.ChunkEvent;
@@ -24,8 +24,8 @@ public class OpenGLCppEngine implements Engine {
 
 	private Queue<InputEvent> input;
 	private Queue<ChunkEvent> chunk;
-	private Queue<OldNewEvent<Vector3d>> position;
-	private Queue<OldNewEvent<Vector2d>> camera;
+	private Queue<OldNewValueEvent<Vector3d>> position;
+	private Queue<OldNewValueEvent<Vector2d>> camera;
 	private PlayerPositionListener positionListener = new PlayerPositionListener();
 	private PlayerCameraListener cameraListener = new PlayerCameraListener();
 	private Player player;
@@ -46,14 +46,14 @@ public class OpenGLCppEngine implements Engine {
 		this.player.OnCameraUpdate().add(this.cameraListener);
 	}
 
-	public Queue<OldNewEvent<Vector3d>> getPositionUpdate() {
+	public Queue<OldNewValueEvent<Vector3d>> getPositionUpdate() {
 		if (this.position == null) {
 			this.position = new LinkedList<>();
 		}
 		return this.position;
 	}
 
-	public Queue<OldNewEvent<Vector2d>> getCameraUpdate() {
+	public Queue<OldNewValueEvent<Vector2d>> getCameraUpdate() {
 		if (this.camera == null) {
 			this.camera = new LinkedList<>();
 		}
@@ -103,19 +103,19 @@ public class OpenGLCppEngine implements Engine {
 		this.onClose.invoke(this, new WindowCloseEvent(true));
 	}
 
-	private class PlayerPositionListener implements EventListener<OldNewEvent<Vector3d>> {
+	private class PlayerPositionListener implements EventListener<OldNewValueEvent<Vector3d>> {
 
 		@Override
-		public void listen(Object sender, OldNewEvent<Vector3d> object) {
+		public void listen(Object sender, OldNewValueEvent<Vector3d> object) {
 			position.add(object);
 		}
 
 	}
 
-	private class PlayerCameraListener implements EventListener<OldNewEvent<Vector2d>> {
+	private class PlayerCameraListener implements EventListener<OldNewValueEvent<Vector2d>> {
 
 		@Override
-		public void listen(Object sender, OldNewEvent<Vector2d> object) {
+		public void listen(Object sender, OldNewValueEvent<Vector2d> object) {
 			camera.add(object);
 		}
 

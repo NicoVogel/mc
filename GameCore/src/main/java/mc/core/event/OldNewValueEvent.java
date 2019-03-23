@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class OldNewEvent<T> {
+public class OldNewValueEvent<T> {
 
 	private T oldValue;
 	private T newValue;
