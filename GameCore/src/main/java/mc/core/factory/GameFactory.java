@@ -13,19 +13,19 @@ import mc.core.ComponentOrganizer;
 /**
  * Factory
  */
-public class Factory implements CoreFactory {
+public class GameFactory implements CoreFactory {
 
     private static CoreFactory instance = null;
 
     public static CoreFactory Instance() {
-        if (Factory.instance == null) {
-            Factory.instance = new Factory();
+        if (GameFactory.instance == null) {
+            GameFactory.instance = new GameFactory();
         }
-        return Factory.instance;
+        return GameFactory.instance;
     }
 
     protected void overrideInstance(CoreFactory factory) {
-        Factory.instance = factory;
+        GameFactory.instance = factory;
     }
 
     @Override
