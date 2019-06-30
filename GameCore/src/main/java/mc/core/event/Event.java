@@ -2,9 +2,10 @@ package mc.core.event;
 
 import java.util.HashSet;
 
-public class Event<T> implements EventProvider<T>, Disposable {
+public class Event<T> implements Disposable {
 
 	private HashSet<EventListener<T>> listeners;
+	private EventProviderImpl provider;
 
 	private HashSet<EventListener<T>> getListeners() {
 		if (this.listeners == null) {
@@ -13,22 +14,11 @@ public class Event<T> implements EventProvider<T>, Disposable {
 		return this.listeners;
 	}
 
-	/**
-	 * add an listener
-	 * 
-	 * @param listener
-	 */
-	public void add(EventListener<T> listener) {
-		getListeners().add(listener);
-	}
-
-	/**
-	 * remove an listener
-	 * 
-	 * @param listener
-	 */
-	public void remove(EventListener<T> listener) {
-		getListeners().remove(listener);
+	public EventProvider<T> getProvider() {
+		if (this.provider == null) {
+			this.provider = new EventProviderImpl();
+		}
+		return this.provider;
 	}
 
 	/**
@@ -45,5 +35,25 @@ public class Event<T> implements EventProvider<T>, Disposable {
 	@Override
 	public void dispose() {
 		this.listeners.clear();
+	}
+
+	private class EventProviderImpl implements EventProvider<T> {
+		/**
+		 * add an listener
+		 * 
+		 * @param listener
+		 */
+		public void add(EventListener<T> listener) {
+			getListeners().add(listener);
+		}
+
+		/**
+		 * remove an listener
+		 * 
+		 * @param listener
+		 */
+		public void remove(EventListener<T> listener) {
+			getListeners().remove(listener);
+		}
 	}
 }
