@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import mc.core.ComponentCollection;
 import mc.core.ComponentOrganizer;
 
 /**
  * Factory
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GameFactory implements CoreFactory {
 
     private static CoreFactory instance = null;
