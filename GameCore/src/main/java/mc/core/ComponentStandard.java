@@ -24,11 +24,23 @@ public class ComponentStandard implements Component {
 
 	/* package */ ComponentStandard(GameObject gameObject) {
 		this();
+		if (gameObject == null) {
+			this.active = false;
+			this.closed = false;
+			// TODO log
+			return;
+		}
 		this.gameObject = gameObject;
 	}
 
 	/* package */ ComponentStandard(Component component) {
 		this();
+		if (component == null) {
+			this.active = false;
+			this.closed = false;
+			// TODO log
+			return;
+		}
 		this.parent = component;
 	}
 
