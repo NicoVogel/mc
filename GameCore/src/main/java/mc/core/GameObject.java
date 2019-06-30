@@ -15,23 +15,15 @@ import one.util.streamex.StreamEx;
  * @author Nico
  *
  */
+@Getter
 public final class GameObject implements Disposable, ComponentOrganizer, ElementStatus {
 
-	@Getter
 	@Setter
 	private boolean active = true;
-
-	@Getter
 	private boolean closed = false;
-
-	@Getter
 	@Setter
 	private String tag;
-
-	@Getter
 	private UUID id = UUID.randomUUID();
-
-	@Getter
 	private ComponentOrganizer children;
 
 	public GameObject() {
