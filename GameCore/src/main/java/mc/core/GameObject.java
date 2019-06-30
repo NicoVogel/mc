@@ -45,7 +45,7 @@ public final class GameObject implements Disposable, ComponentOrganizer, Element
 		if (this.isClosed())
 			// TODO add log
 			return null;
-		Component component = new Component(this);
+		Component component = new ComponentStandard(this);
 		addComponent(component);
 		return component;
 	}
