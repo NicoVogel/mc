@@ -1,13 +1,13 @@
 package mc.core;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import mc.core.event.Event;
 import mc.core.event.EventProvider;
 
 public class ComponentCollection {
-	private List<Component> components;
+	private Set<Component> components;
 	private Event<Component> onAdd;
 	private Event<Component> onRemove;
 
@@ -24,9 +24,9 @@ public class ComponentCollection {
 		return this.onRemove;
 	}
 
-	protected List<Component> getComps() {
+	protected Set<Component> getComps() {
 		if (this.components == null) {
-			this.components = new ArrayList<>();
+			this.components = new HashSet<>();
 		}
 		return this.components;
 	}
@@ -35,7 +35,6 @@ public class ComponentCollection {
 		if (getComps().add(component)) {
 			this.onAdd.invoke(this, component);
 		}
-
 	}
 
 	/* package */ void removeComponent(Component component) {
