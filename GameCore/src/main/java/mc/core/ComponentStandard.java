@@ -32,6 +32,13 @@ public class ComponentStandard implements Component {
 		this.parent = component;
 	}
 
+	public GameObject getGameObject() {
+		if (this.gameObject == null) {
+			this.gameObject = this.getParent().getGameObject();
+		}
+		return this.gameObject;
+	}
+
 	/**
 	 * used to remove the component from its parent and disables itself
 	 */
