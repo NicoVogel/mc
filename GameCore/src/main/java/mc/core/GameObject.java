@@ -33,18 +33,6 @@ public final class GameObject implements Disposable, ComponentOrganizer, Element
 		this.closed = false;
 	}
 
-	/**
-	 * creates a new component and adds it to its components
-	 */
-	public Component addComponent() {
-		if (this.isClosed())
-			// TODO add log
-			return null;
-		Component component = new ComponentStandard(this);
-		addComponent(component);
-		return component;
-	}
-
 	@Override
 	public void dispose() {
 		if (this.isClosed())
