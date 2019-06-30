@@ -24,10 +24,10 @@ public class ComponentBinding implements EventListener<Component> {
 		this.bindingActive = false;
 	}
 
-	public void close() {
-		this.main.close();
+	public void dispose() {
+		this.main.dispose();
 		for (Component component : this.bindedComponents) {
-			component.close();
+			component.dispose();
 		}
 		cancelBinding();
 	}
@@ -36,7 +36,7 @@ public class ComponentBinding implements EventListener<Component> {
 	public void listen(Object sender, Component object) {
 		for (Component component : this.bindedComponents) {
 			if (object == component) {
-				close();
+				dispose();
 				return;
 			}
 		}

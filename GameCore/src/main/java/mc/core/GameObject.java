@@ -1,14 +1,13 @@
 package mc.core;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
+import mc.core.event.Disposable;
+import mc.core.event.EventProvider;
+import mc.core.factory.GameFactory;
+import one.util.streamex.StreamEx;
 
 /**
  * this is the basic object used by the engine
@@ -16,71 +15,134 @@ import lombok.Setter;
  * @author Nico
  *
  */
-public class GameObject extends ComponentCollection {
+public final class GameObject implements Disposable, ComponentOrganizer, ElementStatus {
 
 	@Getter
 	@Setter
 	private boolean active = true;
-	private Set<Class<?>> compTypes;
 
-	private Set<Class<?>> getCompTypes() {
-		if (this.compTypes == null) {
-			this.compTypes = new HashSet<>();
-		}
-		return this.compTypes;
+	@Getter
+	private boolean closed = false;
+
+	@Getter
+	@Setter
+	private String tag;
+
+	@Getter
+	private UUID id = UUID.randomUUID();
+
+	@Getter
+	private ComponentOrganizer children;
+
+	public GameObject() {
+		this.children = GameFactory.Instance().createComponentOrganizer();
 	}
 
 	/**
-	 * Get all components, this is a clone of the original list
-	 * 
-	 * @return
+	 * creates a new component and adds it to its components
 	 */
-	public List<Component> getComponents() {
-		return new ArrayList<>(getComps());
-	}
-
-	/**
-	 * Get all component types, this is a clone of the original hash set
-	 * 
-	 * @return
-	 */
-	public ArrayList<Class<?>> getComponentTypes() {
-		return new ArrayList<>(getCompTypes());
-	}
-
-	/**
-	 * check if a specific component is in the
-	 * 
-	 * @param clazz
-	 * @return
-	 */
-	public <T> boolean hasA(Class<T> clazz) {
-		return getCompTypes().contains(clazz);
-	}
-
-	/**
-	 * return all the components of a specific type
-	 * 
-	 * @param clazz
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public <T> List<T> getComponents(Class<T> clazz) {
-		return (List<T>) getComps().stream().flatMap(o -> (clazz.isInstance(o)) ? Stream.of((T) o) : Stream.empty())
-				.collect(Collectors.toList());
+	public Component addComponent() {
+		if (this.isClosed())
+			// TODO add log
+			return null;
+		Component component = new Component(this);
+		addComponent(component);
+		return component;
 	}
 
 	@Override
-	/* package */ void addComponent(Component component) {
-		super.addComponent(component);
-		getCompTypes().add(component.getClass());
+	public void dispose() {
+		if (this.isClosed())
+			// TODO add log
+			return;
+		this.closed = true;
+		this.active = false;
+		this.children.dispose();
 	}
 
 	@Override
-	/* package */ void removeComponent(Component component) {
-		super.removeComponent(component);
-		if (this.getComps().stream().anyMatch(x -> component.getClass().isInstance(x)) == false) {
-			getCompTypes().remove(component.getClass());
-		}
+	public StreamEx<Component> getComponents() {
+		return this.children.getComponents();
 	}
+
+	@Override
+	public <T extends Component> T getComponent(Class<T> type) {
+		return this.children.getComponent(type);
+	}
+
+	@Override
+	public <T extends Component> T getComponentOfParent(Class<T> type) {
+		return this.children.getComponentOfParent(type);
+	}
+
+	@Override
+	public <T extends Component> T getComponentOfChildren(Class<T> type) {
+		return this.children.getComponentOfChildren(type);
+	}
+
+	@Override
+	public <T extends Component> StreamEx<T> getComponents(Class<T> type) {
+		return this.children.getComponents(type);
+	}
+
+	@Override
+	public <T extends Component> StreamEx<T> getComponentsOfParent(Class<T> type) {
+		return this.children.getComponentsOfParent(type);
+	}
+
+	@Override
+	public <T extends Component> StreamEx<T> getComponentsOfChildren(Class<T> type) {
+		return this.children.getComponentsOfChildren(type);
+	}
+
+	@Override
+	public <T extends Component> T getComponent(String tag) {
+		return this.children.getComponent(tag);
+	}
+
+	@Override
+	public <T extends Component> T getComponentOfParent(String tag) {
+		return this.children.getComponentOfParent(tag);
+	}
+
+	@Override
+	public <T extends Component> T getComponentOfChildren(String tag) {
+		return this.children.getComponentOfChildren(tag);
+	}
+
+	@Override
+	public <T extends Component> StreamEx<T> getComponents(String tag) {
+		return this.children.getComponents(tag);
+	}
+
+	@Override
+	public <T extends Component> StreamEx<T> getComponentsOfParent(String tag) {
+		return this.children.getComponentsOfParent(tag);
+	}
+
+	@Override
+	public <T extends Component> StreamEx<T> getComponentsOfChildren(String tag) {
+		return this.children.getComponentsOfChildren(tag);
+	}
+
+	@Override
+	public void addComponent(Component component) {
+		this.children.addComponent(component);
+	}
+
+	@Override
+	public boolean removeComponent(Component component) {
+		return this.children.removeComponent(component);
+	}
+
+	@Override
+	public EventProvider<Component> OnAdd() {
+		return this.children.OnAdd();
+	}
+
+	@Override
+	public EventProvider<Component> OnRemove() {
+		return this.children.OnRemove();
+	}
+
 }

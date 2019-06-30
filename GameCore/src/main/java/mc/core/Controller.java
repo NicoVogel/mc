@@ -30,12 +30,11 @@ public abstract class Controller<T extends Component> {
 		if (this.canBeUsed == false || gameObject == null || gameObject.isActive() == false) {
 			return;
 		}
-		List<T> components = gameObject.getComponents(this.handles);
-		for (T comp : components) {
-			if (comp.isActive()) {
-				handleComponent(comp);
+		gameObject.getComponents(this.handles).forEach(component -> {
+			if (component.isActive()) {
+				handleComponent(component);
 			}
-		}
+		});
 	}
 
 	protected abstract void handleComponent(T component);
