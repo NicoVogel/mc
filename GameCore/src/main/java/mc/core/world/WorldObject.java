@@ -46,7 +46,7 @@ public class WorldObject implements Disposable {
 	}
 
 	public EventProvider<WorldObjectEventType> OnStateChanged() {
-		return this.stateChanged;
+		return this.stateChanged.getProvider();
 	}
 
 	@Override

@@ -17,11 +17,11 @@ public class ComponentCollection {
 	}
 
 	public EventProvider<Component> OnAdd() {
-		return this.onAdd;
+		return this.onAdd.getProvider();
 	}
 
 	public EventProvider<Component> OnRemove() {
-		return this.onRemove;
+		return this.onRemove.getProvider();
 	}
 
 	protected Set<Component> getComps() {

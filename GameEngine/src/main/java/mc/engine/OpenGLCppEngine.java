@@ -32,7 +32,7 @@ public class OpenGLCppEngine implements Engine {
 	private PlayerView view;
 
 	static {
-//TODO native methods einbinden
+		// TODO native methods einbinden
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class OpenGLCppEngine implements Engine {
 
 	@Override
 	public EventProvider<WindowCloseEvent> OnClosingWindow() {
-		return this.onClose;
+		return this.onClose.getProvider();
 	}
 
 	@Override

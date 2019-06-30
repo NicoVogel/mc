@@ -19,7 +19,7 @@ public class ObservableListImpl<E> implements ObservableList<E> {
 	private Event<Collection<? extends E>> onAddAll;
 	private Event<Collection<? extends E>> onRemoveAll;
 	private Event<OldNewValueEvent<E>> onSet;
-	
+
 	public ObservableListImpl(List<E> list) {
 		this.list = list;
 		this.onAdd = new Event<>();
@@ -28,14 +28,14 @@ public class ObservableListImpl<E> implements ObservableList<E> {
 		this.onRemoveAll = new Event<>();
 		this.onSet = new Event<>();
 	}
-	
+
 	public ObservableListImpl() {
 		this(new ArrayList<>());
 	}
 
 	@Override
 	public boolean add(E arg0) {
-		if(this.list.add(arg0)) {
+		if (this.list.add(arg0)) {
 			this.onAdd.invoke(this, arg0);
 			return true;
 		}
@@ -50,7 +50,7 @@ public class ObservableListImpl<E> implements ObservableList<E> {
 
 	@Override
 	public boolean addAll(Collection<? extends E> arg0) {
-		if(this.addAll(arg0)) {
+		if (this.addAll(arg0)) {
 			this.onAddAll.invoke(this, arg0);
 			return true;
 		}
@@ -59,7 +59,7 @@ public class ObservableListImpl<E> implements ObservableList<E> {
 
 	@Override
 	public boolean addAll(int arg0, Collection<? extends E> arg1) {
-		if(this.list.addAll(arg0, arg1)) {
+		if (this.list.addAll(arg0, arg1)) {
 			this.onAddAll.invoke(this, arg1);
 			return true;
 		}
@@ -70,7 +70,7 @@ public class ObservableListImpl<E> implements ObservableList<E> {
 	public void clear() {
 		Collection<? extends E> elements = this.list;
 		this.list.clear();
-		if(elements.isEmpty() == false) {
+		if (elements.isEmpty() == false) {
 			this.onRemoveAll.invoke(this, elements);
 		}
 	}
@@ -123,8 +123,8 @@ public class ObservableListImpl<E> implements ObservableList<E> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean remove(Object arg0) {
-		if(this.list.remove(arg0)) {
-			this.onRemove.invoke(this, (E)arg0);
+		if (this.list.remove(arg0)) {
+			this.onRemove.invoke(this, (E) arg0);
 			return true;
 		}
 		return false;
@@ -142,9 +142,9 @@ public class ObservableListImpl<E> implements ObservableList<E> {
 	public boolean removeAll(Collection<?> arg0) {
 		ArrayList<E> removed = new ArrayList<>();
 		boolean hasChanged = false;
-		for(Object obj : arg0){
-			if(this.list.remove(obj)) {
-				removed.add((E)obj);
+		for (Object obj : arg0) {
+			if (this.list.remove(obj)) {
+				removed.add((E) obj);
 				hasChanged = true;
 			}
 		}
@@ -186,27 +186,27 @@ public class ObservableListImpl<E> implements ObservableList<E> {
 
 	@Override
 	public EventProvider<E> OnAdd() {
-		return this.onAdd;
+		return this.onAdd.getProvider();
 	}
 
 	@Override
 	public EventProvider<E> OnRemove() {
-		return this.onRemove;
+		return this.onRemove.getProvider();
 	}
 
 	@Override
 	public EventProvider<Collection<? extends E>> OnAddCollection() {
-		return this.onAddAll;
+		return this.onAddAll.getProvider();
 	}
 
 	@Override
 	public EventProvider<Collection<? extends E>> OnRemoveCollection() {
-		return this.onRemoveAll;
+		return this.onRemoveAll.getProvider();
 	}
 
 	@Override
 	public EventProvider<OldNewValueEvent<E>> OnSet() {
-		return this.onSet;
+		return this.onSet.getProvider();
 	}
 
 }

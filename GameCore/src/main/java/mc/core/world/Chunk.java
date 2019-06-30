@@ -74,11 +74,11 @@ public class Chunk implements Disposable {
 	}
 
 	public EventProvider<ChunkEvent> OnUpdate() {
-		return this.onUpdate;
+		return this.onUpdate.getProvider();
 	}
 
 	public EventProvider<WorldObjectEventType> OnChange() {
-		return this.onChange;
+		return this.onChange.getProvider();
 	}
 
 	@Override

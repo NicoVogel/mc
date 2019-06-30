@@ -69,11 +69,11 @@ public class InputManager implements Updateable, Disposable {
 	}
 
 	public EventProvider<KeyEvent> OnKey() {
-		return this.keyEvent;
+		return this.keyEvent.getProvider();
 	}
 
 	public EventProvider<MouseEvent> OnMouse() {
-		return this.mouseEvent;
+		return this.mouseEvent.getProvider();
 	}
 
 	@Override
