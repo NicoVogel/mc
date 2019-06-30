@@ -3,6 +3,7 @@ package mc.core;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,9 +21,9 @@ public class GameObject extends ComponentCollection {
 	@Getter
 	@Setter
 	private boolean active = true;
-	private HashSet<Class<?>> compTypes;
+	private Set<Class<?>> compTypes;
 
-	private HashSet<Class<?>> getCompTypes() {
+	private Set<Class<?>> getCompTypes() {
 		if (this.compTypes == null) {
 			this.compTypes = new HashSet<>();
 		}
