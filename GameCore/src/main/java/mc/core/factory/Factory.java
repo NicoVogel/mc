@@ -15,6 +15,19 @@ import mc.core.ComponentOrganizer;
  */
 public class Factory implements CoreFactory {
 
+    private static CoreFactory instance = null;
+
+    public static CoreFactory Instance() {
+        if (Factory.instance == null) {
+            Factory.instance = new Factory();
+        }
+        return Factory.instance;
+    }
+
+    protected void overrideInstance(CoreFactory factory) {
+        Factory.instance = factory;
+    }
+
     @Override
     public ComponentOrganizer createComponentOrganizer() {
         return new ComponentCollection();
