@@ -19,15 +19,18 @@ import one.util.streamex.StreamEx;
 public final class GameObject implements Disposable, ComponentOrganizer, ElementStatus {
 
 	@Setter
-	private boolean active = true;
-	private boolean closed = false;
+	private boolean active;
+	private boolean closed;
 	@Setter
 	private String tag;
-	private UUID id = UUID.randomUUID();
+	private UUID id;
 	private ComponentOrganizer children;
 
 	public GameObject() {
 		this.children = GameFactory.Instance().createComponentOrganizer();
+		this.id = UUID.randomUUID();
+		this.active = true;
+		this.closed = false;
 	}
 
 	/**
