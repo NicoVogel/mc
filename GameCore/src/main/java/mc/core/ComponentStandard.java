@@ -31,6 +31,7 @@ public class ComponentStandard implements Component {
 			return;
 		}
 		this.gameObject = gameObject;
+		this.gameObject.addComponent(this);
 	}
 
 	/* package */ ComponentStandard(Component component) {
@@ -42,6 +43,7 @@ public class ComponentStandard implements Component {
 			return;
 		}
 		this.parent = component;
+		this.parent.addComponent(this);
 	}
 
 	public GameObject getGameObject() {
