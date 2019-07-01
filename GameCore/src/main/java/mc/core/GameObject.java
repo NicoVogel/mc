@@ -16,7 +16,7 @@ import one.util.streamex.StreamEx;
  *
  */
 @Getter
-public final class GameObject implements Disposable, ComponentOrganizer, ElementStatus {
+public final class GameObject implements Disposable, ComponentCollection, ElementStatus {
 
 	@Setter
 	private boolean active;
@@ -24,7 +24,7 @@ public final class GameObject implements Disposable, ComponentOrganizer, Element
 	@Setter
 	private String tag;
 	private UUID id;
-	private ComponentOrganizer children;
+	private ComponentCollection children;
 
 	public GameObject() {
 		this.children = GameFactory.Instance().createComponentOrganizer();

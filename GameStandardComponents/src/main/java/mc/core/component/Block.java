@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import mc.core.Component;
 import mc.core.ComponentBinding;
-import mc.core.ComponentCollection;
+import mc.core.ComponentCollectionImpl;
 
 @Getter
 public class Block extends Component {
@@ -20,7 +20,7 @@ public class Block extends Component {
 	private WorldPosition position;
 	private ComponentBinding binding;
 
-	public Block(ComponentCollection parent, Vector3d position, String texturePath) {
+	public Block(ComponentCollectionImpl parent, Vector3d position, String texturePath) {
 		super(parent);
 		if (parent == null) {
 			// TODO log

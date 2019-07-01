@@ -9,8 +9,8 @@ import java.util.Set;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import mc.core.ComponentCollectionImpl;
 import mc.core.ComponentCollection;
-import mc.core.ComponentOrganizer;
 
 /**
  * Factory
@@ -32,8 +32,8 @@ public class GameFactory implements CoreFactory {
     }
 
     @Override
-    public ComponentOrganizer createComponentOrganizer() {
-        return new ComponentCollection();
+    public ComponentCollection createComponentOrganizer() {
+        return new ComponentCollectionImpl();
     }
 
     @Override

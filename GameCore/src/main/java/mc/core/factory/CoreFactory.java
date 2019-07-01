@@ -4,14 +4,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import mc.core.ComponentOrganizer;
+import mc.core.ComponentCollection;
 
 /**
  * CoreFactory
  */
 public interface CoreFactory {
 
-    public ComponentOrganizer createComponentOrganizer();
+    public ComponentCollection createComponentOrganizer();
 
     public <T> List<T> createList();
 

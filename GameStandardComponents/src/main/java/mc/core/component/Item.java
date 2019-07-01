@@ -3,7 +3,7 @@ package mc.core.component;
 import lombok.Getter;
 import lombok.Setter;
 import mc.core.Component;
-import mc.core.ComponentCollection;
+import mc.core.ComponentCollectionImpl;
 
 @Getter
 public class Item extends Component {
@@ -15,7 +15,7 @@ public class Item extends Component {
 	private String description;
 	
 	
-	public Item(ComponentCollection parent) {
+	public Item(ComponentCollectionImpl parent) {
 		super(parent);
 		// TODO Auto-generated constructor stub
 	}

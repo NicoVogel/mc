@@ -3,7 +3,7 @@ package mc.core.component;
 import lombok.Getter;
 import lombok.Setter;
 import mc.core.Component;
-import mc.core.ComponentCollection;
+import mc.core.ComponentCollectionImpl;
 
 public class Texture extends Component {
 
@@ -11,11 +11,11 @@ public class Texture extends Component {
 	@Setter
 	private String path;
 
-	public Texture(ComponentCollection parent) {
+	public Texture(ComponentCollectionImpl parent) {
 		super(parent);
 	}
 
-	public Texture(ComponentCollection parent, String path) {
+	public Texture(ComponentCollectionImpl parent, String path) {
 		this(parent);
 		this.path = path;
 	}

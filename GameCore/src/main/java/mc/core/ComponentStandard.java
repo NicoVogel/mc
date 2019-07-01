@@ -16,7 +16,7 @@ public class ComponentStandard implements Component {
 	@Setter
 	private String tag;
 	@Getter(value = AccessLevel.NONE)
-	private ComponentOrganizer children;
+	private ComponentCollection children;
 
 	private ComponentStandard() {
 		this.active = true;

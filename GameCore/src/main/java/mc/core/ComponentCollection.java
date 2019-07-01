@@ -1,206 +1,162 @@
 package mc.core;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import mc.core.event.Event;
+import mc.core.event.Disposable;
 import mc.core.event.EventProvider;
 import one.util.streamex.StreamEx;
 
-public class ComponentCollection implements ComponentOrganizer {
-
-    private Map<WrapKey<?>, Set<Component>> elements;
-    private Event<Component> onAdd;
-    private Event<Component> onRemove;
-
-    public ComponentCollection() {
-        this.elements = new HashMap<>();
-        this.onAdd = new Event<>();
-        this.onRemove = new Event<>();
-    }
-
-    @Override
-    public void dispose() {
-        this.onAdd.dispose();
-        this.onRemove.dispose();
-        StreamEx.ofValues(this.elements).flatMap(list -> StreamEx.of(list)).forEach(value -> value.dispose());
-    }
-
-    @Override
-    public EventProvider<Component> OnAdd() {
-        return this.onAdd.getProvider();
-    }
-
-    @Override
-    public EventProvider<Component> OnRemove() {
-        return this.onRemove.getProvider();
-    }
-
-    @Override
-    public void addComponent(Component component) {
-        this.elements.computeIfAbsent(new WrapKey<>(component.getClass(), component.getTag()), key -> new HashSet<>())
-                .add(component);
-    }
-
-    @Override
-    public boolean removeComponent(Component component) {
-        Set<Component> values = this.elements.get(new WrapKey<>(component.getClass()));
-        if (values == null) {
-            return false;
-        }
-        return values.remove(component);
-    }
-
-    @Override
-    public StreamEx<Component> getComponents() {
-        return StreamEx.ofValues(this.elements).flatMap(list -> StreamEx.of(list));
-    }
-
-    @Override
-    public <T extends Component> T getComponent(Class<T> type) {
-        return getComponent(new WrapKey<>(type));
-    }
-
-    @Override
-    public <T extends Component> T getComponentOfParent(Class<T> type) {
-        return getComponentsOfParent(new WrapKey<>(type)).findFirst().orElse(null);
-    }
-
-    @Override
-    public <T extends Component> T getComponentOfChildren(Class<T> type) {
-        return getComponentsOfChildren(new WrapKey<>(type)).findFirst().orElse(null);
-    }
-
-    @Override
-    public <T extends Component> StreamEx<T> getComponents(Class<T> type) {
-        return getComponents(new WrapKey<>(type));
-    }
-
-    @Override
-    public <T extends Component> StreamEx<T> getComponentsOfParent(Class<T> type) {
-        return getComponentsOfParent(new WrapKey<>(type));
-    }
-
-    @Override
-    public <T extends Component> StreamEx<T> getComponentsOfChildren(Class<T> type) {
-        return getComponentsOfChildren(new WrapKey<>(type));
-    }
-
-    @Override
-    public <T extends Component> T getComponent(String tag) {
-        return getComponent(new WrapKey<>(tag));
-    }
-
-    @Override
-    public <T extends Component> T getComponentOfParent(String tag) {
-        return getComponentsOfParent(new WrapKey<T>(tag)).findFirst().orElse(null);
-    }
-
-    @Override
-    public <T extends Component> T getComponentOfChildren(String tag) {
-        return getComponentsOfChildren(new WrapKey<T>(tag)).findFirst().orElse(null);
-    }
-
-    @Override
-    public <T extends Component> StreamEx<T> getComponents(String tag) {
-        return getComponents(new WrapKey<>(tag));
-    }
-
-    @Override
-    public <T extends Component> StreamEx<T> getComponentsOfParent(String tag) {
-        return getComponentsOfParent(new WrapKey<>(tag));
-    }
-
-    @Override
-    public <T extends Component> StreamEx<T> getComponentsOfChildren(String tag) {
-        return getComponentsOfChildren(new WrapKey<>(tag));
-    }
+/**
+ * ComponentOrganizer
+ */
+public interface ComponentCollection extends Disposable {
 
     /**
-     * filter by the key, flatten the stream and cast to T
+     * get all components
+     * 
+     * @return stream of {@link Component}
      */
-    @SuppressWarnings("unchecked")
-    private <T extends Component> StreamEx<T> getComponents(WrapKey<T> key) {
-        return StreamEx.ofValues(this.elements, wrapKey -> wrapKey.equals(key))
-                .flatMap(list -> StreamEx.of(list).map(value -> (T) value));
-    }
+    public StreamEx<Component> getComponents();
 
     /**
-     * take first matching element
+     * get the first component of a specific type
+     * 
+     * @param <T>  needs to extend from {@link Component}
+     * @param type filter by this class
+     * @return
      */
-    private <T extends Component> T getComponent(WrapKey<T> key) {
-        return getComponents(key).findFirst().orElse(null);
-    }
+    public <T extends Component> T getComponent(Class<T> type);
 
     /**
-     * extend the generic method 'getComponents' with all children components which
-     * match. Depth first search
+     * get the first component of a specific type. also search its parents. does
+     * only search up
+     * 
+     * @param <T>  needs to extend from {@link Component}
+     * @param type filter by this class
+     * @return
      */
-    private <T extends Component> StreamEx<T> getComponentsOfChildren(WrapKey<T> key) {
-        return getComponents(key)
-                .append(StreamEx.ofValues(this.elements).flatMap(list -> StreamEx.of(list)).flatMap(value -> {
-                    if (key.isClass())
-                        return value.getParent().<T>getComponentsOfChildren(key.clazz);
-                    else
-                        return value.getParent().<T>getComponentsOfChildren(key.tag);
-                }));
-    }
+    public <T extends Component> T getComponentOfParent(Class<T> type);
 
     /**
-     * extend the generic method 'getComponents' with all components of all parents
+     * get the first component of a specific type. also search's through children
+     * using depth first search
+     * 
+     * @param <T>  needs to extend from {@link Component}
+     * @param type filter by this class
+     * @return
      */
-    private <T extends Component> StreamEx<T> getComponentsOfParent(WrapKey<T> key) {
-        return getComponents(key)
-                .append(StreamEx.ofValues(this.elements).flatMap(list -> StreamEx.of(list)).flatMap(value -> {
-                    if (value.getParent() != null) {
-                        if (key.isClass())
-                            return value.getParent().<T>getComponentsOfParent(key.clazz);
-                        else
-                            return value.getParent().<T>getComponentsOfParent(key.tag);
-                    }
-                    if (value.getGameObject() != null) {
-                        if (key.isClass())
-                            return value.getGameObject().<T>getComponentsOfParent(key.clazz);
-                        else
-                            return value.getGameObject().<T>getComponentsOfParent(key.tag);
-                    }
-                    return StreamEx.<T>empty();
-                }));
-    }
+    public <T extends Component> T getComponentOfChildren(Class<T> type);
 
     /**
-     * this key is needed to enable a double key access for the elements map. only
-     * one of the properties need to match, this is achieved by the equals method.
+     * get all components of a specific type
+     * 
+     * @param <T>  needs to extend from {@link Component}
+     * @param type filter by this class
+     * @return stream of T
      */
-    private class WrapKey<T> {
-        public Class<T> clazz;
-        public String tag;
+    public <T extends Component> StreamEx<T> getComponents(Class<T> type);
 
-        public WrapKey(Class<T> clazz) {
-            this(clazz, "");
-        }
+    /**
+     * get all components of a specific type. also search its parents. does only
+     * search up
+     * 
+     * @param <T>  needs to extend from {@link Component}
+     * @param type filter by this class
+     * @return
+     */
+    public <T extends Component> StreamEx<T> getComponentsOfParent(Class<T> type);
 
-        public WrapKey(String tag) {
-            this(null, tag);
-        }
+    /**
+     * get all components of a specific type. also search's through children using
+     * depth first search
+     * 
+     * @param <T>  needs to extend from {@link Component}
+     * @param type filter by this class
+     * @return
+     */
+    public <T extends Component> StreamEx<T> getComponentsOfChildren(Class<T> type);
 
-        private WrapKey(Class<T> clazz, String tag) {
-            this.tag = tag;
-            this.clazz = clazz;
-        }
+    /**
+     * get the first component of a specific type
+     * 
+     * @param <T> needs to extend from {@link Component}
+     * @param tag filter by this tag
+     * @return
+     */
+    public <T extends Component> T getComponent(String tag);
 
-        public boolean isClass() {
-            return this.clazz != null;
-        }
+    /**
+     * get the first component of a specific type. also search its parents. does
+     * only search up
+     * 
+     * @param <T> needs to extend from {@link Component}
+     * @param tag filter by this tag
+     * @return
+     */
+    public <T extends Component> T getComponentOfParent(String tag);
 
-        @Override
-        public boolean equals(Object o) {
-            if (o instanceof WrapKey<?> == false)
-                return false;
-            WrapKey<?> obj = (WrapKey<?>) o;
-            return this.clazz.equals(obj.clazz) || this.tag.equals(obj.tag);
-        }
-    }
+    /**
+     * get the first component of a specific type. also search's through children
+     * using depth first search
+     * 
+     * @param <T> needs to extend from {@link Component}
+     * @param tag filter by this tag
+     * @return
+     */
+    public <T extends Component> T getComponentOfChildren(String tag);
+
+    /**
+     * get all components of a specific type
+     * 
+     * @param <T> needs to extend from {@link Component}
+     * @param tag filter by this tag
+     * @return stream of T
+     */
+    public <T extends Component> StreamEx<T> getComponents(String tag);
+
+    /**
+     * get all components of a specific type. also search its parents. does only
+     * search up
+     * 
+     * @param <T> needs to extend from {@link Component}
+     * @param tag filter by this tag
+     * @return
+     */
+    public <T extends Component> StreamEx<T> getComponentsOfParent(String tag);
+
+    /**
+     * get all components of a specific type. also search's through children using
+     * depth first search
+     * 
+     * @param <T> needs to extend from {@link Component}
+     * @param tag filter by this tag
+     * @return
+     */
+    public <T extends Component> StreamEx<T> getComponentsOfChildren(String tag);
+
+    /**
+     * add component to the organizer
+     * 
+     * @param component will be added
+     */
+    public void addComponent(Component component);
+
+    /**
+     * remove a component and return true if it was part of the organizer
+     * 
+     * @param component gets removed if it exits
+     * @return
+     */
+    public boolean removeComponent(Component component);
+
+    /**
+     * if a component is added, this event gets invoked
+     * 
+     * @return
+     */
+    public EventProvider<Component> OnAdd();
+
+    /**
+     * if a component is removed, this event gets invoked
+     */
+    public EventProvider<Component> OnRemove();
+
 }

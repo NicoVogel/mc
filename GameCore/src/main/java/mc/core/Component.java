@@ -5,7 +5,7 @@ import mc.core.event.Disposable;
 /**
  * This interface allows for maximum flexibility while creating all components
  */
-public interface Component extends Disposable, ComponentOrganizer, ElementStatus {
+public interface Component extends Disposable, ComponentCollection, ElementStatus {
 
     /**
      * provide the parent game object
