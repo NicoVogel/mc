@@ -133,6 +133,64 @@ public interface ComponentCollection extends Disposable {
     public <T extends Component> StreamEx<T> getComponentsOfChildren(String tag);
 
     /**
+     * get the first component of a specific type
+     * 
+     * @param <T> needs to extend from {@link Component}
+     * @param tag filter by this tag
+     * @return
+     */
+    public <T extends Component> T getComponent(Tag tag);
+
+    /**
+     * get the first component of a specific type. also search its parents. does
+     * only search up
+     * 
+     * @param <T> needs to extend from {@link Component}
+     * @param tag filter by this tag
+     * @return
+     */
+    public <T extends Component> T getComponentOfParent(Tag tag);
+
+    /**
+     * get the first component of a specific type. also search's through children
+     * using depth first search
+     * 
+     * @param <T> needs to extend from {@link Component}
+     * @param tag filter by this tag
+     * @return
+     */
+    public <T extends Component> T getComponentOfChildren(Tag tag);
+
+    /**
+     * get all components of a specific type
+     * 
+     * @param <T> needs to extend from {@link Component}
+     * @param tag filter by this tag
+     * @return stream of T
+     */
+    public <T extends Component> StreamEx<T> getComponents(Tag tag);
+
+    /**
+     * get all components of a specific type. also search its parents. does only
+     * search up
+     * 
+     * @param <T> needs to extend from {@link Component}
+     * @param tag filter by this tag
+     * @return
+     */
+    public <T extends Component> StreamEx<T> getComponentsOfParent(Tag tag);
+
+    /**
+     * get all components of a specific type. also search's through children using
+     * depth first search
+     * 
+     * @param <T> needs to extend from {@link Component}
+     * @param tag filter by this tag
+     * @return
+     */
+    public <T extends Component> StreamEx<T> getComponentsOfChildren(Tag tag);
+
+    /**
      * add component to the organizer
      * 
      * @param component will be added
