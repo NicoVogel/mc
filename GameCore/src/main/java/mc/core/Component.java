@@ -25,6 +25,11 @@ public interface Component extends Disposable, ComponentCollection, ElementStatu
     public String getTag();
 
     /**
+     * used as type reference in the collection
+     */
+    public Tag getTagObject();
+
+    /**
      * tag a component to identify it later on
      */
     public void setTag(String tag);

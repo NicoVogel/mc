@@ -21,8 +21,8 @@ public final class GameObject implements Disposable, ComponentCollection, Elemen
 	@Setter
 	private boolean active;
 	private boolean closed;
-	@Setter
-	private String tag;
+
+	private Tag tagObject;
 	private UUID id;
 	private ComponentCollection children;
 
@@ -31,6 +31,14 @@ public final class GameObject implements Disposable, ComponentCollection, Elemen
 		this.id = UUID.randomUUID();
 		this.active = true;
 		this.closed = false;
+	}
+
+	public String getTag() {
+		return this.tagObject.getTag();
+	}
+
+	public void setTag(String tag) {
+		this.tagObject.setTag(tag);
 	}
 
 	@Override
@@ -105,6 +113,36 @@ public final class GameObject implements Disposable, ComponentCollection, Elemen
 
 	@Override
 	public <T extends Component> StreamEx<T> getComponentsOfChildren(String tag) {
+		return this.children.getComponentsOfChildren(tag);
+	}
+
+	@Override
+	public <T extends Component> T getComponent(Tag tag) {
+		return this.children.getComponent(tag);
+	}
+
+	@Override
+	public <T extends Component> T getComponentOfParent(Tag tag) {
+		return this.children.getComponentOfParent(tag);
+	}
+
+	@Override
+	public <T extends Component> T getComponentOfChildren(Tag tag) {
+		return this.children.getComponentOfChildren(tag);
+	}
+
+	@Override
+	public <T extends Component> StreamEx<T> getComponents(Tag tag) {
+		return this.children.getComponents(tag);
+	}
+
+	@Override
+	public <T extends Component> StreamEx<T> getComponentsOfParent(Tag tag) {
+		return this.children.getComponentsOfParent(tag);
+	}
+
+	@Override
+	public <T extends Component> StreamEx<T> getComponentsOfChildren(Tag tag) {
 		return this.children.getComponentsOfChildren(tag);
 	}
 

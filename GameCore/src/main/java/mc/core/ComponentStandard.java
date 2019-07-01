@@ -2,7 +2,6 @@ package mc.core;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
 import mc.core.event.EventProvider;
 import one.util.streamex.StreamEx;
 
@@ -13,13 +12,13 @@ public class ComponentStandard implements Component {
 	private boolean closed;
 	private GameObject gameObject;
 	private Component parent;
-	@Setter
-	private String tag;
+	private Tag tagObject;
 	@Getter(value = AccessLevel.NONE)
 	private ComponentCollection children;
 
 	private ComponentStandard() {
 		this.active = true;
+		this.tagObject = new Tag("");
 	}
 
 	/* package */ ComponentStandard(GameObject gameObject) {
@@ -51,6 +50,14 @@ public class ComponentStandard implements Component {
 			this.gameObject = this.getParent().getGameObject();
 		}
 		return this.gameObject;
+	}
+
+	public String getTag() {
+		return this.tagObject.getTag();
+	}
+
+	public void setTag(String tag) {
+		this.tagObject.setTag(tag);
 	}
 
 	/**
@@ -134,6 +141,36 @@ public class ComponentStandard implements Component {
 
 	@Override
 	public <T extends Component> StreamEx<T> getComponentsOfChildren(String tag) {
+		return this.children.getComponentsOfChildren(tag);
+	}
+
+	@Override
+	public <T extends Component> T getComponent(Tag tag) {
+		return this.children.getComponent(tag);
+	}
+
+	@Override
+	public <T extends Component> T getComponentOfParent(Tag tag) {
+		return this.children.getComponentOfParent(tag);
+	}
+
+	@Override
+	public <T extends Component> T getComponentOfChildren(Tag tag) {
+		return this.children.getComponentOfChildren(tag);
+	}
+
+	@Override
+	public <T extends Component> StreamEx<T> getComponents(Tag tag) {
+		return this.children.getComponents(tag);
+	}
+
+	@Override
+	public <T extends Component> StreamEx<T> getComponentsOfParent(Tag tag) {
+		return this.children.getComponentsOfParent(tag);
+	}
+
+	@Override
+	public <T extends Component> StreamEx<T> getComponentsOfChildren(Tag tag) {
 		return this.children.getComponentsOfChildren(tag);
 	}
 

@@ -40,7 +40,8 @@ public class ComponentCollectionImpl implements ComponentCollection {
 
     @Override
     public void addComponent(Component component) {
-        this.elements.computeIfAbsent(new WrapKey<>(component.getClass(), component.getTag()), key -> new HashSet<>())
+        this.elements
+                .computeIfAbsent(new WrapKey<>(component.getClass(), component.getTagObject()), key -> new HashSet<>())
                 .add(component);
     }
 
@@ -90,31 +91,61 @@ public class ComponentCollectionImpl implements ComponentCollection {
 
     @Override
     public <T extends Component> T getComponent(String tag) {
-        return getComponent(new WrapKey<>(tag));
+        return getComponent(new WrapKey<>(new Tag(tag)));
     }
 
     @Override
     public <T extends Component> T getComponentOfParent(String tag) {
-        return getComponentsOfParent(new WrapKey<T>(tag)).findFirst().orElse(null);
+        return getComponentsOfParent(new WrapKey<T>(new Tag(tag))).findFirst().orElse(null);
     }
 
     @Override
     public <T extends Component> T getComponentOfChildren(String tag) {
-        return getComponentsOfChildren(new WrapKey<T>(tag)).findFirst().orElse(null);
+        return getComponentsOfChildren(new WrapKey<T>(new Tag(tag))).findFirst().orElse(null);
     }
 
     @Override
     public <T extends Component> StreamEx<T> getComponents(String tag) {
-        return getComponents(new WrapKey<>(tag));
+        return getComponents(new WrapKey<>(new Tag(tag)));
     }
 
     @Override
     public <T extends Component> StreamEx<T> getComponentsOfParent(String tag) {
-        return getComponentsOfParent(new WrapKey<>(tag));
+        return getComponentsOfParent(new WrapKey<>(new Tag(tag)));
     }
 
     @Override
     public <T extends Component> StreamEx<T> getComponentsOfChildren(String tag) {
+        return getComponentsOfChildren(new WrapKey<>(new Tag(tag)));
+    }
+
+    @Override
+    public <T extends Component> T getComponent(Tag tag) {
+        return getComponent(new WrapKey<>(tag));
+    }
+
+    @Override
+    public <T extends Component> T getComponentOfParent(Tag tag) {
+        return getComponentsOfParent(new WrapKey<T>(tag)).findFirst().orElse(null);
+    }
+
+    @Override
+    public <T extends Component> T getComponentOfChildren(Tag tag) {
+        return getComponentsOfChildren(new WrapKey<T>(tag)).findFirst().orElse(null);
+    }
+
+    @Override
+    public <T extends Component> StreamEx<T> getComponents(Tag tag) {
+        return getComponents(new WrapKey<>(tag));
+    }
+
+    @Override
+    public <T extends Component> StreamEx<T> getComponentsOfParent(Tag tag) {
+        return getComponentsOfParent(new WrapKey<>(tag));
+    }
+
+    @Override
+    public <T extends Component> StreamEx<T> getComponentsOfChildren(Tag tag) {
         return getComponentsOfChildren(new WrapKey<>(tag));
     }
 
@@ -176,17 +207,17 @@ public class ComponentCollectionImpl implements ComponentCollection {
      */
     private class WrapKey<T> {
         public Class<T> clazz;
-        public String tag;
+        public Tag tag;
 
         public WrapKey(Class<T> clazz) {
-            this(clazz, "");
+            this(clazz, null);
         }
 
-        public WrapKey(String tag) {
+        public WrapKey(Tag tag) {
             this(null, tag);
         }
 
-        private WrapKey(Class<T> clazz, String tag) {
+        private WrapKey(Class<T> clazz, Tag tag) {
             this.tag = tag;
             this.clazz = clazz;
         }
@@ -203,4 +234,5 @@ public class ComponentCollectionImpl implements ComponentCollection {
             return this.clazz.equals(obj.clazz) || this.tag.equals(obj.tag);
         }
     }
+
 }
