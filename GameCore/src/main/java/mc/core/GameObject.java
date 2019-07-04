@@ -33,12 +33,19 @@ public final class GameObject implements Disposable, ComponentCollection, Elemen
 		this.closed = false;
 	}
 
+	public Tag getTagObject() {
+		if (this.tagObject == null) {
+			this.tagObject = new Tag("");
+		}
+		return this.tagObject;
+	}
+
 	public String getTag() {
-		return this.tagObject.getTag();
+		return getTagObject().getTag();
 	}
 
 	public void setTag(String tag) {
-		this.tagObject.setTag(tag);
+		getTagObject().setTag(tag);
 	}
 
 	@Override

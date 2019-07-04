@@ -19,7 +19,6 @@ public class ComponentStandard implements Component {
 
 	private ComponentStandard() {
 		this.active = true;
-		this.tagObject = new Tag("");
 		this.children = GameFactory.Instance().createComponentCollection();
 	}
 
@@ -54,12 +53,19 @@ public class ComponentStandard implements Component {
 		return this.gameObject;
 	}
 
+	public Tag getTagObject() {
+		if (this.tagObject == null) {
+			this.tagObject = new Tag("");
+		}
+		return this.tagObject;
+	}
+
 	public String getTag() {
-		return this.tagObject.getTag();
+		return getTagObject().getTag();
 	}
 
 	public void setTag(String tag) {
-		this.tagObject.setTag(tag);
+		getTagObject().setTag(tag);
 	}
 
 	/**
