@@ -3,6 +3,7 @@ package mc.core;
 import lombok.AccessLevel;
 import lombok.Getter;
 import mc.core.event.EventProvider;
+import mc.core.factory.GameFactory;
 import one.util.streamex.StreamEx;
 
 @Getter
@@ -19,6 +20,7 @@ public class ComponentStandard implements Component {
 	private ComponentStandard() {
 		this.active = true;
 		this.tagObject = new Tag("");
+		this.children = GameFactory.Instance().createComponentCollection();
 	}
 
 	/* package */ ComponentStandard(GameObject gameObject) {
