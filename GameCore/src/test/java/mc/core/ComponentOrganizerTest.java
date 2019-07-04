@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -16,8 +15,7 @@ import org.junit.jupiter.api.Test;
 public class ComponentOrganizerTest {
 
     @Test
-    @Order(0)
-    public void createFindComponentByTag() {
+    public void findComponentByTag() {
         // Arrange
         GameObject gameObj = new GameObject();
         Component component = new ComponentStandard(gameObj);
@@ -39,8 +37,7 @@ public class ComponentOrganizerTest {
     }
 
     @Test
-    @Order(1)
-    public void createFindMultipleComponentsBySameTag() {
+    public void findMultipleComponentsBySameTag() {
         // Arrange
         GameObject gameObj = new GameObject();
         Component component = new ComponentStandard(gameObj);
@@ -61,8 +58,7 @@ public class ComponentOrganizerTest {
     }
 
     @Test
-    @Order(0)
-    public void createFindComponentByClass() {
+    public void findComponentByClass() {
         // Arrange
         GameObject gameObj = new GameObject();
         Component component = new ComponentStandard(gameObj);
@@ -78,8 +74,7 @@ public class ComponentOrganizerTest {
     }
 
     @Test
-    @Order(1)
-    public void createFindMultipleComponentsBySameClass() {
+    public void findMultipleComponentsBySameClass() {
         // Arrange
         GameObject gameObj = new GameObject();
         Component component = new ComponentStandard(gameObj);
@@ -92,6 +87,22 @@ public class ComponentOrganizerTest {
         assertEquals(2l, result2.size(), "didn't found both components");
         assertTrue(result2.contains(component), "the component which was added first is not part of the result");
         assertTrue(result2.contains(component1), "the component which was added second is not part of the result");
+    }
+
+    @Test
+    public void findSubComponentByTag() {
+        // Arrange
+        GameObject gameObj = new GameObject();
+        Component component = new ComponentStandard(gameObj);
+
+        // Act
+        ComponentStandard result = gameObj.getComponent(ComponentStandard.class);
+        List<ComponentStandard> result2 = gameObj.getComponents(ComponentStandard.class).toList();
+
+        // Assert
+        assertNotNull(result, "no component with of ComponentStandard class was found");
+        assertSame(component, result, "the found object is not the same as the first object");
+        assertSame(component, result2.get(0), "the first component is not equals to the first added component");
     }
 
 }
