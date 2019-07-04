@@ -2,6 +2,7 @@ package mc.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -94,15 +95,20 @@ public class ComponentOrganizerTest {
         // Arrange
         GameObject gameObj = new GameObject();
         Component component = new ComponentStandard(gameObj);
+        Component subComponent = new ComponentStandard(component);
+        String tag = "tag";
+        subComponent.setTag(tag);
 
         // Act
-        ComponentStandard result = gameObj.getComponent(ComponentStandard.class);
-        List<ComponentStandard> result2 = gameObj.getComponents(ComponentStandard.class).toList();
+        Component noResult = gameObj.getComponent(tag);
+        Component result = gameObj.getComponentOfChildren(tag);
+        List<Component> result2 = gameObj.getComponentsOfChildren(tag).toList();
 
         // Assert
-        assertNotNull(result, "no component with of ComponentStandard class was found");
-        assertSame(component, result, "the found object is not the same as the first object");
-        assertSame(component, result2.get(0), "the first component is not equals to the first added component");
+        assertNull(noResult, "The tagged object was found in the gameobject");
+        assertNotNull(result, "The tagged object was not found");
+        assertSame(subComponent, result, "the found object is not the same as the first object");
+        assertSame(subComponent, result2.get(0), "the first component is not equals to the first added component");
     }
 
 }
