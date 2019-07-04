@@ -17,7 +17,8 @@ public interface ComponentCollection extends Disposable {
     public StreamEx<Component> getComponents();
 
     /**
-     * get the first component of a specific type
+     * get the first component of a specific type. It is not guaranteed that the
+     * returned component is the last added component.
      * 
      * @param <T>  needs to extend from {@link Component}
      * @param type filter by this class
@@ -75,7 +76,8 @@ public interface ComponentCollection extends Disposable {
     public <T extends Component> StreamEx<T> getComponentsOfChildren(Class<T> type);
 
     /**
-     * get the first component of a specific type
+     * get the first component of a specific type. It is not guaranteed that the
+     * returned component is the last added component.
      * 
      * @param <T> needs to extend from {@link Component}
      * @param tag filter by this tag
@@ -133,7 +135,8 @@ public interface ComponentCollection extends Disposable {
     public <T extends Component> StreamEx<T> getComponentsOfChildren(String tag);
 
     /**
-     * get the first component of a specific type
+     * get the first component of a specific type. It is not guaranteed that the
+     * returned component is the last added component.
      * 
      * @param <T> needs to extend from {@link Component}
      * @param tag filter by this tag
