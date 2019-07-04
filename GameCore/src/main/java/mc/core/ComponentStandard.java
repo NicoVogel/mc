@@ -175,6 +175,21 @@ public class ComponentStandard implements Component {
 	}
 
 	@Override
+	public <T extends Component> StreamEx<T> getComponents(WrapKey<T> key) {
+		return this.children.getComponents(key);
+	}
+
+	@Override
+	public <T extends Component> StreamEx<T> getComponentsOfChildren(WrapKey<T> key) {
+		return this.children.getComponentsOfChildren(key);
+	}
+
+	@Override
+	public <T extends Component> StreamEx<T> getComponentsOfParent(WrapKey<T> key) {
+		return this.children.getComponentsOfParent(key);
+	}
+
+	@Override
 	public void addComponent(Component component) {
 		this.children.addComponent(component);
 	}

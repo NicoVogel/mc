@@ -194,6 +194,39 @@ public interface ComponentCollection extends Disposable {
     public <T extends Component> StreamEx<T> getComponentsOfChildren(Tag tag);
 
     /**
+     * get all components of a specific type
+     * 
+     * @param <T>
+     * @param key
+     * @return
+     */
+    public <T extends Component> StreamEx<T> getComponents(WrapKey<T> key);
+
+    /**
+     * extends the generic method {@link getComponents} with all children components
+     * which match. Depth first search
+     */
+    /**
+     * 
+     * @param <T>
+     * @param key
+     * @return
+     */
+    public <T extends Component> StreamEx<T> getComponentsOfChildren(WrapKey<T> key);
+
+    /**
+     * extend the generic method {@link getComponents} with all components of all
+     * parents
+     */
+    /**
+     * 
+     * @param <T>
+     * @param key
+     * @return
+     */
+    public <T extends Component> StreamEx<T> getComponentsOfParent(WrapKey<T> key);
+
+    /**
      * add component to the organizer
      * 
      * @param component will be added

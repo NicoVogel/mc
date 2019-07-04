@@ -61,7 +61,7 @@ public class ComponentCollectionImpl implements ComponentCollection {
 
     @Override
     public <T extends Component> T getComponent(Class<T> type) {
-        return getComponent(new WrapKey<>(type));
+        return getComponents(new WrapKey<>(type)).findFirst().orElse(null);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class ComponentCollectionImpl implements ComponentCollection {
 
     @Override
     public <T extends Component> T getComponent(String tag) {
-        return getComponent(new WrapKey<>(new Tag(tag)));
+        return getComponents(new WrapKey<T>(new Tag(tag))).findFirst().orElse(null);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class ComponentCollectionImpl implements ComponentCollection {
 
     @Override
     public <T extends Component> T getComponent(Tag tag) {
-        return getComponent(new WrapKey<>(tag));
+        return getComponents(new WrapKey<T>(tag)).findFirst().orElse(null);
     }
 
     @Override
@@ -153,86 +153,36 @@ public class ComponentCollectionImpl implements ComponentCollection {
      * filter by the key, flatten the stream and cast to T
      */
     @SuppressWarnings("unchecked")
-    private <T extends Component> StreamEx<T> getComponents(WrapKey<T> key) {
+    public <T extends Component> StreamEx<T> getComponents(WrapKey<T> key) {
         return StreamEx.ofValues(this.elements, wrapKey -> wrapKey.equals(key))
                 .flatMap(list -> StreamEx.of(list).map(value -> (T) value));
-    }
-
-    /**
-     * take first matching element
-     */
-    private <T extends Component> T getComponent(WrapKey<T> key) {
-        return getComponents(key).findFirst().orElse(null);
     }
 
     /**
      * extend the generic method 'getComponents' with all children components which
      * match. Depth first search
      */
-    private <T extends Component> StreamEx<T> getComponentsOfChildren(WrapKey<T> key) {
-        return getComponents(key)
-                .append(StreamEx.ofValues(this.elements).flatMap(list -> StreamEx.of(list)).flatMap(value -> {
-                    if (key.isClass())
-                        return value.getParent().<T>getComponentsOfChildren(key.clazz);
-                    else
-                        return value.getParent().<T>getComponentsOfChildren(key.tag);
-                }));
+    public <T extends Component> StreamEx<T> getComponentsOfChildren(WrapKey<T> key) {
+        return getComponents(key).append(StreamEx.ofValues(this.elements).flatMap(list -> StreamEx.of(list))
+                .flatMap(value -> value.<T>getComponentsOfChildren(key)));
     }
 
     /**
      * extend the generic method 'getComponents' with all components of all parents
      */
-    private <T extends Component> StreamEx<T> getComponentsOfParent(WrapKey<T> key) {
+    public <T extends Component> StreamEx<T> getComponentsOfParent(WrapKey<T> key) {
         return getComponents(key)
                 .append(StreamEx.ofValues(this.elements).flatMap(list -> StreamEx.of(list)).flatMap(value -> {
-                    if (value.getParent() != null) {
-                        if (key.isClass())
-                            return value.getParent().<T>getComponentsOfParent(key.clazz);
-                        else
-                            return value.getParent().<T>getComponentsOfParent(key.tag);
-                    }
-                    if (value.getGameObject() != null) {
-                        if (key.isClass())
-                            return value.getGameObject().<T>getComponentsOfParent(key.clazz);
-                        else
-                            return value.getGameObject().<T>getComponentsOfParent(key.tag);
-                    }
-                    return StreamEx.<T>empty();
+                    ComponentCollection componentCollection = value.getParent();
+                    // use gameobject if there is no parent
+                    if (componentCollection == null)
+                        componentCollection = value.getGameObject();
+                    // return nothing if the current object is a gameobject
+                    if (componentCollection == null)
+                        return StreamEx.<T>empty();
+
+                    return componentCollection.<T>getComponentsOfParent(key);
                 }));
-    }
-
-    /**
-     * this key is needed to enable a double key access for the elements map. only
-     * one of the properties need to match, this is achieved by the equals method.
-     */
-    private class WrapKey<T> {
-        public Class<T> clazz;
-        public Tag tag;
-
-        public WrapKey(Class<T> clazz) {
-            this(clazz, null);
-        }
-
-        public WrapKey(Tag tag) {
-            this(null, tag);
-        }
-
-        private WrapKey(Class<T> clazz, Tag tag) {
-            this.tag = tag;
-            this.clazz = clazz;
-        }
-
-        public boolean isClass() {
-            return this.clazz != null;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (o instanceof WrapKey<?> == false)
-                return false;
-            WrapKey<?> obj = (WrapKey<?>) o;
-            return this.clazz.equals(obj.clazz) || this.tag.equals(obj.tag);
-        }
     }
 
 }
