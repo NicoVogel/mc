@@ -14,11 +14,13 @@ public class ComponentCollectionImpl implements ComponentCollection {
     private Map<WrapKey<?>, Set<Component>> elements;
     private Event<Component> onAdd;
     private Event<Component> onRemove;
+    private ParentProvider parent;
 
-    public ComponentCollectionImpl() {
+    public ComponentCollectionImpl(ParentProvider parent) {
         this.elements = new HashMap<>();
         this.onAdd = new Event<>();
         this.onRemove = new Event<>();
+        this.parent = parent;
     }
 
     @Override
@@ -171,18 +173,12 @@ public class ComponentCollectionImpl implements ComponentCollection {
      * extend the generic method 'getComponents' with all components of all parents
      */
     public <T extends Component> StreamEx<T> getComponentsOfParent(WrapKey<T> key) {
-        return getComponents(key)
-                .append(StreamEx.ofValues(this.elements).flatMap(list -> StreamEx.of(list)).flatMap(value -> {
-                    ComponentCollection componentCollection = value.getParent();
-                    // use gameobject if there is no parent
-                    if (componentCollection == null)
-                        componentCollection = value.getGameObject();
-                    // return nothing if the current object is a gameobject
-                    if (componentCollection == null)
-                        return StreamEx.<T>empty();
+        return getComponents(key).append(
+                StreamEx.of(this.parent.getParent() != null ? this.parent.getParent().<T>getComponentsOfParent(key)
+                        : this.parent.getGameObject() != null
+                                ? this.parent.getGameObject().<T>getComponentsOfParent(key)
+                                : StreamEx.<T>empty()));
 
-                    return componentCollection.<T>getComponentsOfParent(key);
-                }));
     }
 
 }

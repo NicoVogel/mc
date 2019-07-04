@@ -5,13 +5,14 @@ import java.util.Map;
 import java.util.Set;
 
 import mc.core.ComponentCollection;
+import mc.core.ParentProvider;
 
 /**
  * CoreFactory
  */
 public interface CoreFactory {
 
-    public ComponentCollection createComponentCollection();
+    public ComponentCollection createComponentCollection(ParentProvider parent);
 
     public <T> List<T> createList();
 

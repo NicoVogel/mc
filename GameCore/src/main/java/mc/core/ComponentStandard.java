@@ -19,7 +19,7 @@ public class ComponentStandard implements Component {
 
 	private ComponentStandard() {
 		this.active = true;
-		this.children = GameFactory.Instance().createComponentCollection();
+		this.children = GameFactory.Instance().createComponentCollection(this);
 	}
 
 	/* package */ ComponentStandard(GameObject gameObject) {
