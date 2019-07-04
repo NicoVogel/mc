@@ -1,7 +1,9 @@
-package mc.core;
+package mc.core.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import mc.core.Component;
+import mc.core.GameObject;
 import mc.core.event.EventProvider;
 import mc.core.factory.GameFactory;
 import one.util.streamex.StreamEx;

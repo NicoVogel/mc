@@ -1,4 +1,4 @@
-package mc.core;
+package mc.core.model;
 
 /**
  * ElementStatus

@@ -1,4 +1,7 @@
-package mc.core;
+package mc.core.model;
+
+import mc.core.Component;
+import mc.core.GameObject;
 
 /**
  * ParentComponent

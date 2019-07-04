@@ -1,4 +1,4 @@
-package mc.core;
+package mc.core.model;
 
 /**
  * this key is needed to enable a double key access for the elements map. only

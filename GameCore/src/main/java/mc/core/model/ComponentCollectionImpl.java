@@ -1,10 +1,11 @@
-package mc.core;
+package mc.core.model;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import mc.core.Component;
 import mc.core.event.Event;
 import mc.core.event.EventProvider;
 import one.util.streamex.StreamEx;

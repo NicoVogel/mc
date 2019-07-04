@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import mc.core.ComponentCollection;
-import mc.core.ParentProvider;
+import mc.core.model.ComponentCollection;
+import mc.core.model.ParentProvider;
 
 /**
  * CoreFactory

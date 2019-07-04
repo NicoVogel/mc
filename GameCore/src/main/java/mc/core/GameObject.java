@@ -7,6 +7,10 @@ import lombok.Setter;
 import mc.core.event.Disposable;
 import mc.core.event.EventProvider;
 import mc.core.factory.GameFactory;
+import mc.core.model.ComponentCollection;
+import mc.core.model.ElementStatus;
+import mc.core.model.Tag;
+import mc.core.model.WrapKey;
 import one.util.streamex.StreamEx;
 
 /**

@@ -1,5 +1,6 @@
-package mc.core;
+package mc.core.model;
 
+import mc.core.Component;
 import mc.core.event.Disposable;
 import mc.core.event.EventProvider;
 import one.util.streamex.StreamEx;
