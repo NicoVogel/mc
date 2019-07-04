@@ -96,6 +96,8 @@ public class ComponentOrganizerTest {
         GameObject gameObj = new GameObject();
         Component component = new ComponentStandard(gameObj);
         Component subComponent = new ComponentStandard(component);
+        new ComponentStandard(gameObj);
+        new ComponentStandard(component);
         String tag = "tag";
         subComponent.setTag(tag);
 
@@ -110,5 +112,7 @@ public class ComponentOrganizerTest {
         assertSame(subComponent, result, "the found object is not the same as the first object");
         assertSame(subComponent, result2.get(0), "the first component is not equals to the first added component");
     }
+
+    
 
 }
