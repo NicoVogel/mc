@@ -1,4 +1,4 @@
-package mc.core;
+package mc.core.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -9,6 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+
+import mc.core.Component;
+import mc.core.GameObject;
 
 /**
  * ComponentOrganizerTest
@@ -111,6 +114,29 @@ public class ComponentOrganizerTest {
         assertNotNull(result, "The tagged object was not found");
         assertSame(subComponent, result, "the found object is not the same as the first object");
         assertSame(subComponent, result2.get(0), "the first component is not equals to the first added component");
+    }
+
+    @Test
+    public void findParentComponentByTagTest() {
+        // Arrange
+        GameObject gameObj = new GameObject();
+        Component component = new ComponentStandard(gameObj);
+        Component subComponent = new ComponentStandard(component);
+        new ComponentStandard(gameObj);
+        new ComponentStandard(component);
+        String tag = "tag";
+        component.setTag(tag);
+
+        // Act
+        Component noResult = subComponent.getComponent(tag);
+        Component result = subComponent.getComponentOfParent(tag);
+        List<Component> result2 = subComponent.getComponentsOfParent(tag).toList();
+
+        // Assert
+        assertNull(noResult, "The tagged object was found in the subcomponent");
+        assertNotNull(result, "The tagged object was not found");
+        assertSame(component, result, "the found object is not the same as the first object");
+        assertSame(component, result2.get(0), "the first component is not equals to the first added component");
     }
 
 }
