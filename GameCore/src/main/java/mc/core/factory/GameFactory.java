@@ -32,7 +32,7 @@ public class GameFactory implements CoreFactory {
     }
 
     @Override
-    public ComponentCollection createComponentOrganizer() {
+    public ComponentCollection createComponentCollection() {
         return new ComponentCollectionImpl();
     }
 

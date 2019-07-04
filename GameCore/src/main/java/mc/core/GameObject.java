@@ -27,7 +27,7 @@ public final class GameObject implements Disposable, ComponentCollection, Elemen
 	private ComponentCollection children;
 
 	public GameObject() {
-		this.children = GameFactory.Instance().createComponentOrganizer();
+		this.children = GameFactory.Instance().createComponentCollection();
 		this.id = UUID.randomUUID();
 		this.active = true;
 		this.closed = false;

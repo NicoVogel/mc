@@ -11,7 +11,7 @@ import mc.core.ComponentCollection;
  */
 public interface CoreFactory {
 
-    public ComponentCollection createComponentOrganizer();
+    public ComponentCollection createComponentCollection();
 
     public <T> List<T> createList();
 
