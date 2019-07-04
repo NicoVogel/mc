@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 public class ComponentOrganizerTest {
 
     @Test
-    public void findComponentByTag() {
+    public void findComponentByTagTest() {
         // Arrange
         GameObject gameObj = new GameObject();
         Component component = new ComponentStandard(gameObj);
@@ -38,7 +38,7 @@ public class ComponentOrganizerTest {
     }
 
     @Test
-    public void findMultipleComponentsBySameTag() {
+    public void findMultipleComponentsBySameTagTest() {
         // Arrange
         GameObject gameObj = new GameObject();
         Component component = new ComponentStandard(gameObj);
@@ -59,7 +59,7 @@ public class ComponentOrganizerTest {
     }
 
     @Test
-    public void findComponentByClass() {
+    public void findComponentByClassTest() {
         // Arrange
         GameObject gameObj = new GameObject();
         Component component = new ComponentStandard(gameObj);
@@ -75,7 +75,7 @@ public class ComponentOrganizerTest {
     }
 
     @Test
-    public void findMultipleComponentsBySameClass() {
+    public void findMultipleComponentsBySameClassTest() {
         // Arrange
         GameObject gameObj = new GameObject();
         Component component = new ComponentStandard(gameObj);
@@ -91,7 +91,7 @@ public class ComponentOrganizerTest {
     }
 
     @Test
-    public void findSubComponentByTag() {
+    public void findSubComponentByTagTest() {
         // Arrange
         GameObject gameObj = new GameObject();
         Component component = new ComponentStandard(gameObj);
@@ -112,7 +112,5 @@ public class ComponentOrganizerTest {
         assertSame(subComponent, result, "the found object is not the same as the first object");
         assertSame(subComponent, result2.get(0), "the first component is not equals to the first added component");
     }
-
-    
 
 }
