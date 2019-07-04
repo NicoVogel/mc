@@ -174,8 +174,8 @@ public class ComponentCollectionImpl implements ComponentCollection {
      * extend the generic method 'getComponents' with all components of all parents
      */
     public <T extends Component> StreamEx<T> getComponentsOfParent(WrapKey<T> key) {
-        return getComponents(key).append(
-                StreamEx.of(this.parent.getParent() != null ? this.parent.getParent().<T>getComponentsOfParent(key)
+        return getComponents(key).append(StreamEx.of(this.parent == null ? StreamEx.<T>empty()
+                : this.parent.getParent() != null ? this.parent.getParent().<T>getComponentsOfParent(key)
                         : this.parent.getGameObject() != null
                                 ? this.parent.getGameObject().<T>getComponentsOfParent(key)
                                 : StreamEx.<T>empty()));
