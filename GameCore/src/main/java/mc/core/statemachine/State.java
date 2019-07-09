@@ -39,4 +39,9 @@ public class State<T> {
     public boolean removeProperty(T property) {
         return getPropertySet().remove(property);
     }
+
+    @Override
+    public int hashCode() {
+        return this.name.hashCode();
+    }
 }
