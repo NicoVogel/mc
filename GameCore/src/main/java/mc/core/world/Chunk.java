@@ -7,9 +7,9 @@ import org.joml.Vector2i;
 import org.joml.Vector3i;
 
 import lombok.Getter;
-import mc.core.event.Disposable;
-import mc.core.event.Event;
-import mc.core.event.EventProvider;
+import mc.core.event.impl.Event;
+import mc.core.event.interfaces.Disposable;
+import mc.core.event.interfaces.EventProvider;
 import mc.core.world.event.ChunkEvent;
 import mc.core.world.event.WorldObjectEventType;
 

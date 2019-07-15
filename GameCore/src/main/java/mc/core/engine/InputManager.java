@@ -8,11 +8,11 @@ import java.util.Queue;
 import mc.core.engine.model.InputEvent;
 import mc.core.engine.model.KeyEvent;
 import mc.core.engine.model.MouseEvent;
-import mc.core.event.Disposable;
-import mc.core.event.Disposer;
-import mc.core.event.Event;
-import mc.core.event.EventProvider;
+import mc.core.event.impl.Event;
+import mc.core.event.interfaces.Disposable;
+import mc.core.event.interfaces.EventProvider;
 import mc.core.update.Updateable;
+import mc.core.util.Disposer;
 
 public class InputManager implements Updateable, Disposable {
 

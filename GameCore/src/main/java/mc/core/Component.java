@@ -1,6 +1,6 @@
 package mc.core;
 
-import mc.core.event.Disposable;
+import mc.core.event.interfaces.Disposable;
 import mc.core.model.ComponentCollection;
 import mc.core.model.ElementStatus;
 import mc.core.model.ParentProvider;

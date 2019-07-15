@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import mc.core.Component;
-import mc.core.event.Event;
-import mc.core.event.EventProvider;
+import mc.core.event.impl.Event;
+import mc.core.event.interfaces.EventProvider;
 import one.util.streamex.StreamEx;
 
 public class ComponentCollectionImpl implements ComponentCollection {

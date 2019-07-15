@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import mc.core.Component;
 import mc.core.GameObject;
-import mc.core.event.EventProvider;
+import mc.core.event.interfaces.EventProvider;
 import mc.core.factory.GameFactory;
 import one.util.streamex.StreamEx;
 

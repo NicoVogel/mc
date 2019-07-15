@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
-import mc.core.event.Disposable;
-import mc.core.event.EventProvider;
+import mc.core.event.interfaces.Disposable;
+import mc.core.event.interfaces.EventProvider;
 import mc.core.factory.GameFactory;
 import mc.core.model.ComponentCollection;
 import mc.core.model.ElementStatus;

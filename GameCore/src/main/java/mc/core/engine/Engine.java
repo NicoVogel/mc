@@ -4,7 +4,7 @@ import java.util.Queue;
 
 import mc.core.engine.model.InputEvent;
 import mc.core.engine.model.WindowCloseEvent;
-import mc.core.event.EventProvider;
+import mc.core.event.interfaces.EventProvider;
 import mc.core.world.Player;
 import mc.core.world.PlayerView;
 import mc.core.world.event.PlayerViewEvent;
