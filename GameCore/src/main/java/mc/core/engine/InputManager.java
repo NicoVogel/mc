@@ -22,7 +22,17 @@ public class InputManager implements Updateable, Disposable {
 	private Event<MouseEvent> mouseEvent;
 	private Disposer disposer = new Disposer(this.keyEvent, this.mouseEvent);
 
-	public InputManager(Engine engine) {
+	private static InputManager instance = null;
+
+	public static InputManager Instance(Engine engine) {
+        if (InputManager.instance == null) {
+            InputManager.instance = new InputManager(engine);
+        }
+        return InputManager.instance;
+    }
+
+
+	private InputManager(Engine engine) {
 		this.engine = engine;
 		if (this.engine == null) {
 			throw new IllegalArgumentException("cannot create an input manager without a engine");
